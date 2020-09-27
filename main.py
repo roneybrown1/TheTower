@@ -141,7 +141,7 @@ class Player(Character):
                           "gained more experience and leveled up! %s gained one additional health point."
                           % (self.name, self.name, self.name))
             else:
-                self.enemy_attacks() #issue here?
+                self.enemy_attacks()
 
     def enemy_attacks(self):
         if self.enemy.do_damage(self):
