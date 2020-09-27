@@ -53,7 +53,13 @@ class Player(Character):
               "a rock pulling their knees to their chest, closed their eyes\n"
               "and faded away into nothingness... Sleep well sweet %s, you\n"
               "tried your hardest..." % (self.name, self.name))
-        self.hp = 0
+        input("Would you like to start over? y/n: ")  # << playing with the input to return to main.
+        if input == "y":
+            main()
+        else:
+            if input == "n":
+                self.hp = 0
+                exit()  # end of playing with it haha
 
     def help(self):
         print(Commands.keys())
@@ -190,4 +196,4 @@ while p.hp > 0:
                 commandFound = True
                 break
         if not commandFound:
-            print("%s is confused about the choice made" % p.name)
+            print("%s is confused about the choice made..." % p.name)
