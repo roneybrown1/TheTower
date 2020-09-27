@@ -20,7 +20,7 @@ class Character:
         if damage == 0:
             print("%s was able to evade %s attack." % (enemy.name, self.name))
         else:
-            print("%s landed a blow on %s with a swing of their dagger." % (self.name, enemy.name))
+            print("%s landed a damaging blow on the %s." % (self.name, enemy.name))
             return enemy.hp <= 0
 
 
@@ -120,7 +120,7 @@ class Player(Character):
             self.tired()
         else:
             if self.do_damage(self.enemy):
-                print("With a quick swipe of their dagger %s lands a killing blow on the %s"
+                print("With a mighty swipe of their dagger %s lands a killing blow on the %s"
                       % (self.name, self.enemy.name))
                 self.enemy = None
                 self.state = 'normal'
@@ -128,7 +128,7 @@ class Player(Character):
                     self.hp = self.hp + 1
                     self.hp_max = self.hp_max + 1
                     print("Through slaying enemies as they get in the way of %s's exploring %s has\n"
-                          "gained more experience and leveled up! %s gained one additional health point"
+                          "gained more experience and leveled up! %s gained one additional health point."
                           % (self.name, self.name, self.name))
             else:
                 self.enemy_attacks() #issue here?
