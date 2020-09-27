@@ -1,4 +1,7 @@
 from art import *
+import random
+from random import randint
+
 
 def main():
     pass
@@ -6,8 +9,6 @@ def main():
 
 if __name__ == '__main__':
     main()
-
-from random import randint
 
 
 class Character:
@@ -29,7 +30,13 @@ class Character:
 class Enemy(Character):
     def __init__(self, player):
         Character.__init__(self)
-        self.name = 'goblin'
+        first = ("giant", "fire-eyed", "half-dead", "rotting", "bloated", "hulking", " grizzly", "angered", "limping",
+                 "erratic", "frenzied", "yellow", "red", "black", "wasting", "tall", "short", "gross")
+        second = ("goblin", "warlock", "witch", "minotaur", "kobald", " skeleton", "ogre", "rat", "spirit", "troll"
+                  "vampire", "banshee")
+        name1 = random.choice(first)
+        name2 = random.choice(second)
+        self.name = (name1 + " " + name2)
         self.hp = randint(1, player.hp)
 
 
