@@ -18,7 +18,7 @@ class Character:
         damage = min(max(randint(0, self.hp) - randint(0, enemy.hp), 0), enemy.hp)
         enemy.hp = enemy.hp - damage
         if damage == 0:
-            print("%s was able to evade %s attack.") % (enemy.name, self.name)
+            print("%s was able to evade %s attack." % (enemy.name, self.name))
         else:
             print("%s landed a blow on %s with a swing of their dagger.")
             return enemy.hp <= 0
@@ -136,7 +136,7 @@ class Player(Character):
                   "and their soul sent to rest. Poor %s, their mother had high hopes that they would "
                   "become a great and strong adventurer but the beastlies had other plans for them. "
                   "Rest well %s, maybe you will be reincarnated as a capable "
-                  "adventure." & (self.name, self.enemy, self.name, self.name, self.name))
+                  "adventure." % (self.name, self.enemy, self.name, self.name, self.name))
 
 
 
