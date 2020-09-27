@@ -59,7 +59,7 @@ class Player(Character):
         print(Commands.keys())
 
     def status(self):
-        print("%s's current stats are...Level: %s\n Health: %d/%d" % (self.name, self.lvl, self.hp, self.hp_max))
+        print("%s's current stats are...\n Level: %s\n Health: %d/%d" % (self.name, self.lvl, self.hp, self.hp_max))
 
     def tired(self):
         print("%s can feel themselves getting weaker, one hp lost.\n"
@@ -138,6 +138,7 @@ class Player(Character):
                 if randint(0, self.hp) < self.hp_max:
                     self.hp = self.hp + 1
                     self.hp_max = self.hp_max + 1
+                    self.lvl = self.lvl + 1
                     print("Through slaying enemies as they get in the way of %s's exploring %s has\n"
                           "gained more experience and leveled up! %s gained one additional health point."
                           % (self.name, self.name, self.name))
