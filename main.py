@@ -142,12 +142,6 @@ class Player(Character):
                   "Rest well %s, maybe you will be reincarnated as a capable\n "
                   "adventure." % (self.name, self.enemy, self.name, self.name, self.name))
 
-            print("%s tried their hardest but was overcome by the power of the %s... %s has been slain "
-                  "and their soul sent to rest. Poor %s, their mother had high hopes that they would "
-                  "become a great and strong adventurer but the beastlies had other plans for them. "
-                  "Rest well %s, maybe you will be reincarnated as a capable "
-                  "adventure." % (self.name, self.enemy, self.name, self.name, self.name))
-
 
 
 Commands = {
