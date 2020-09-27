@@ -1,3 +1,5 @@
+from art import *
+
 def main():
     pass
 
@@ -154,7 +156,8 @@ Commands = {
     'flee': Player.flee,
     'attack': Player.attack,
 }
-
+tprint("The Tower")
+print('--------------------------------------------------------')
 p = Player()
 p.name = input("Hello adventurer, what do they call you? ")
 print("(Type 'help' to get a list of usable commands)\n")

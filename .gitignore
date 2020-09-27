@@ -1,3 +1,5 @@
 
 .idea/misc.xml
 .idea/TheTower.iml
+*.iml
+*.xml
