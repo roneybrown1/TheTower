@@ -17,6 +17,8 @@ class Character:
         self.hp = 1
         self.hp_max = 1
         self.lvl = 1
+        self.gold = 0
+        self.pots = 0
 
     def do_damage(self, enemy):
         damage = min(max(randint(0, self.hp) - randint(0, enemy.hp), 0), enemy.hp)
@@ -38,7 +40,7 @@ class Enemy(Character):
         titleOne = random.choice(first)
         titleTwo = random.choice(second)
         self.name = (titleOne + " " + titleTwo)
-        self.hp = randint(1, player.hp)
+        self.hp = random.randint(1, player.hp)
 
 
 class Player(Character):
@@ -47,25 +49,23 @@ class Player(Character):
         self.state = 'normal'
         self.hp = 25
         self.hp_max = 25
+        self.lvl = 1
+        self.gold = 0
+        self.gold_max = 1000
+        self.pots = 0
 
     def quit(self):
         print("%s could not handle the stress of being alone, they sat behind\n"
               "a rock pulling their knees to their chest, closed their eyes\n"
               "and faded away into nothingness... Sleep well sweet %s, you\n"
               "tried your hardest..." % (self.name, self.name))
-        input("Would you like to start over? y/n: ")  # << playing with the input to return to main.
-        if input == "y":
-            main()
-        else:
-            if input == "n":
-                self.hp = 0
-                exit()  # end of playing with it haha
 
     def help(self):
         print(Commands.keys())
 
     def status(self):
-        print("%s's current stats are...\n Level: %s\n Health: %d/%d" % (self.name, self.lvl, self.hp, self.hp_max))
+        print("%s's current stats are...\n Level: %s\n Health: %d/%d\n Gold: %d/%d\n Potions: %s"
+              % (self.name, self.lvl, self.hp, self.hp_max, self.gold, self.gold_max, self.pots))
 
     def tired(self):
         print("%s can feel themselves getting weaker, one hp lost.\n"
@@ -81,7 +81,7 @@ class Player(Character):
                   "Taking their satchel using it as a pillow, %s drift off to sleep.\n"
                   "%s is refreshed, gained one hp." % (self.name, self.name, self.name))
             self.hp = self.hp + 1
-        if randint(0, 1):
+        if random.randint(0, 1):
             self.enemy = Enemy(self)
             print("A quick scuttle of feet/legs awakens %s from their sleep, before\n"
                   "they can react they are attacked by a %s." % (self.name, self.enemy.name))
@@ -90,6 +90,7 @@ class Player(Character):
         else:
             if self.hp < self.hp_max:
                 self.hp = self.hp + 1
+
             else:
                 print("%s has overslept causing them to feel drowsy, one hp lost." % self.name)
                 self.hp = self.hp - 1
@@ -103,13 +104,13 @@ class Player(Character):
             print("%s moves cautiously through the twisting and turning tunnels of the cave,\n"
                   "with each step the cave seems to be alive and changing. %s continues forward."
                   % (self.name, self.name))
-        if randint(0, 1):
+        if random.randint(0, 1):
             self.enemy = Enemy(self)
             print("As %s moves through the cave they notice a scuttling sound coming from behind them.\n"
                   "Oh no! %s has been attacked by a(n) %s!" % (self.name, self.name, self.enemy.name))
             self.state = 'fight'
         else:
-            if randint(0, 1):
+            if random.randint(0, 1):
                 self.tired()
 
     def flee(self):
@@ -141,13 +142,16 @@ class Player(Character):
                       % (self.name, self.enemy.name))
                 self.enemy = None
                 self.state = 'normal'
-                if randint(0, self.hp) < self.hp_max:
-                    self.hp = self.hp + 1
-                    self.hp_max = self.hp_max + 1
+                if random.randint(0, self.hp) < 10:
+                    self.hp = self.hp + 3
+                    self.hp_max = self.hp_max + 3
                     self.lvl = self.lvl + 1
                     print("Through slaying enemies as they get in the way of %s's exploring %s has\n"
-                          "gained more experience and leveled up! %s gained one additional health point."
-                          % (self.name, self.name, self.name))
+                          "gained more experience and leveled up! %s gained three additional health point.\n"
+                          % (self.name, self.name, self.name,))
+                if random.randint(0, self.gold) < 10:
+                    self.gold = self.gold + 5
+                    print("%s found five gold pieces! Cha-ching!" % self.name)
             else:
                 self.enemy_attacks()
 
@@ -160,6 +164,7 @@ class Player(Character):
                   "Rest well %s, maybe you will be reincarnated as a capable adventure."
                   % (self.name, self.enemy.name, self.name, self.name, self.name))
             tprint("You Died....")
+
 
 
 
