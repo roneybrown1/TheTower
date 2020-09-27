@@ -32,7 +32,7 @@ class Enemy(Character):
         Character.__init__(self)
         first = ("giant", "fire-eyed", "half-dead", "rotting", "bloated", "hulking", " grizzly", "angered", "limping",
                  "erratic", "frenzied", "yellow", "red", "black", "wasting", "tall", "short", "gross")
-        second = ("goblin", "warlock", "witch", "minotaur", "kobald", " skeleton", "ogre", "rat", "spirit", "troll"
+        second = ("goblin", "warlock", "witch", "minotaur", "kobald", " skeleton", "ogre", "rat", "spirit", "troll",
                   "vampire", "banshee")
         name1 = random.choice(first)
         name2 = random.choice(second)
