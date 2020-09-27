@@ -16,6 +16,7 @@ class Character:
         self.name = ""
         self.hp = 1
         self.hp_max = 1
+        self.lvl = 1
 
     def do_damage(self, enemy):
         damage = min(max(randint(0, self.hp) - randint(0, enemy.hp), 0), enemy.hp)
@@ -30,13 +31,13 @@ class Character:
 class Enemy(Character):
     def __init__(self, player):
         Character.__init__(self)
-        first = ("giant", "fire-eyed", "half-dead", "rotting", "bloated", "hulking", " grizzly", "angered", "limping",
+        first = ("giant", "fire-eyed", "half-dead", "rotting", "bloated", "hulking", "grizzly", "angered", "limping",
                  "erratic", "frenzied", "yellow", "red", "black", "wasting", "tall", "short", "gross")
-        second = ("goblin", "warlock", "witch", "minotaur", "kobald", " skeleton", "ogre", "rat", "spirit", "troll",
+        second = ("goblin", "warlock", "witch", "minotaur", "kobald", "skeleton", "ogre", "rat", "spirit", "troll",
                   "vampire", "banshee")
-        name1 = random.choice(first)
-        name2 = random.choice(second)
-        self.name = (name1 + " " + name2)
+        titleOne = random.choice(first)
+        titleTwo = random.choice(second)
+        self.name = (titleOne + " " + titleTwo)
         self.hp = randint(1, player.hp)
 
 
@@ -58,7 +59,7 @@ class Player(Character):
         print(Commands.keys())
 
     def status(self):
-        print("%s's current stats are...Health: %d/%d" % (self.name, self.hp, self.hp_max))
+        print("%s's current stats are...Level: %s\n Health: %d/%d" % (self.name, self.lvl, self.hp, self.hp_max))
 
     def tired(self):
         print("%s can feel themselves getting weaker, one hp lost.\n"
@@ -99,7 +100,7 @@ class Player(Character):
         if randint(0, 1):
             self.enemy = Enemy(self)
             print("As %s moves through the cave they notice a scuttling sound coming from behind them.\n"
-                  "Oh no! %s has been attacked by a %s!" % (self.name, self.name, self.enemy.name))
+                  "Oh no! %s has been attacked by a(n) %s!" % (self.name, self.name, self.enemy.name))
             self.state = 'fight'
         else:
             if randint(0, 1):
@@ -134,7 +135,7 @@ class Player(Character):
                       % (self.name, self.enemy.name))
                 self.enemy = None
                 self.state = 'normal'
-                if randint(0, self.hp) < 10:
+                if randint(0, self.hp) < self.hp_max:
                     self.hp = self.hp + 1
                     self.hp_max = self.hp_max + 1
                     print("Through slaying enemies as they get in the way of %s's exploring %s has\n"
