@@ -62,7 +62,7 @@ class Player(Character):
         else:
             print("%s finds a place to settle, they brush any dirt and debris away.\n"
                   "Taking their satchel using it as a pillow, %s drift off to sleep.\n"
-                  " %s is refreshed, gained one hp." % (self.name, self.name, self.name))
+                  "%s is refreshed, gained one hp." % (self.name, self.name, self.name))
             self.hp = self.hp + 1
         if randint(0, 1):
             self.enemy = Enemy(self)
@@ -135,11 +135,19 @@ class Player(Character):
 
     def enemy_attacks(self):
         if self.enemy.do_damage(self):
+
             print("%s tried their hardest but was overcome by the power of the %s... %s has been slain\n "
                   "and their soul sent to rest. Poor %s, their mother had high hopes that they would\n "
                   "become a great and strong adventurer but the beastlies had other plans for them.\n "
                   "Rest well %s, maybe you will be reincarnated as a capable\n "
                   "adventure." % (self.name, self.enemy, self.name, self.name, self.name))
+
+            print("%s tried their hardest but was overcome by the power of the %s... %s has been slain "
+                  "and their soul sent to rest. Poor %s, their mother had high hopes that they would "
+                  "become a great and strong adventurer but the beastlies had other plans for them. "
+                  "Rest well %s, maybe you will be reincarnated as a capable "
+                  "adventure." % (self.name, self.enemy, self.name, self.name, self.name))
+
 
 
 Commands = {
