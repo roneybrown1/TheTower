@@ -39,9 +39,9 @@ class Player(Character):
         self.hp_max = 25
 
     def quit(self):
-        print("%s could not handle the stress of being alone, they sat behind\n "
-              "a rock pulling their knees to their chest, closed their eyes\n "
-              "and faded away into nothingness... Sleep well sweet %s, you\n "
+        print("%s could not handle the stress of being alone, they sat behind\n"
+              "a rock pulling their knees to their chest, closed their eyes\n"
+              "and faded away into nothingness... Sleep well sweet %s, you\n"
               "tried your hardest..." % (self.name, self.name))
         self.hp = 0
 
@@ -52,7 +52,7 @@ class Player(Character):
         print("%s's current stats are...Health: %d/%d" % (self.name, self.hp, self.hp_max))
 
     def tired(self):
-        print("%s can feel themselves getting weaker, one hp lost.\n "
+        print("%s can feel themselves getting weaker, one hp lost.\n"
               "You are tired and needs to rest." % self.name)
         self.hp = max(1, self.hp - 1)
 
@@ -61,13 +61,13 @@ class Player(Character):
             print("%s cannot rest at this time!" % self.name)
             self.enemy_attacks()
         else:
-            print("%s finds a place to settle, they brush any dirt and debris away.\n "
-                  "Taking their satchel using it as a pillow, %s drift off to sleep.\n "
+            print("%s finds a place to settle, they brush any dirt and debris away.\n"
+                  "Taking their satchel using it as a pillow, %s drift off to sleep.\n"
                   "%s is refreshed, gained one hp." % (self.name, self.name, self.name))
             self.hp = self.hp + 1
         if randint(0, 1):
             self.enemy = Enemy(self)
-            print("A quick scuttle of feet/legs awakens %s from their sleep, before\n "
+            print("A quick scuttle of feet/legs awakens %s from their sleep, before\n"
                   "they can react they are attacked by a %s." % (self.name, self.enemy.name))
             self.state = 'fight'
             self.enemy_attacks()
@@ -80,16 +80,16 @@ class Player(Character):
 
     def explore(self):
         if self.state != 'normal':
-            print("Are you insane?! %s is being attack by a %s and cannot continue exploring...\n "
+            print("Are you insane?! %s is being attack by a %s and cannot continue exploring...\n"
                   "FOCUS! If you are not ready to take on this beastlie, 'flee'." % (self.name, self.enemy.name))
             self.enemy_attacks()
         else:
-            print("%s moves cautiously through the twisting and turning tunnels of the cave,\n "
+            print("%s moves cautiously through the twisting and turning tunnels of the cave,\n"
                   "with each step the cave seems to be alive and changing. %s continues forward."
                   % (self.name, self.name))
         if randint(0, 1):
             self.enemy = Enemy(self)
-            print("As %s moves through the cave they notice a scuttling sound coming from behind them.\n "
+            print("As %s moves through the cave they notice a scuttling sound coming from behind them.\n"
                   "Oh no! %s has been attacked by a %s!" % (self.name, self.name, self.enemy.name))
             self.state = 'fight'
         else:
@@ -102,21 +102,21 @@ class Player(Character):
             self.tired()
         else:
             if randint(1, self.hp + 5) > randint(1, self.enemy.hp):
-                print("Unsure if they wanted to take on the challenger %s searches around for\n "
-                      "an escape route seeing an opening %s dashes towards the enemies blindside\n "
+                print("Unsure if they wanted to take on the challenger %s searches around for\n"
+                      "an escape route seeing an opening %s dashes towards the enemies blindside\n"
                       "and escaped into the darkness from the %s." % (self.name, self.name, self.enemy.name))
                 self.enemy = None
                 self.state = 'normal'
             else:
-                print("%s couldn't escape from the %s and is forced to continue the battle.\n "
+                print("%s couldn't escape from the %s and is forced to continue the battle.\n"
                       "You can try to flee again or attack the beastlie with your dagger."
                       % (self.name, self.enemy.name))
                 self.enemy_attacks()
 
     def attack(self):
         if self.state != 'fight':
-            print("%s twirls about swinging their dagger at absolutely nothing... Some would\n "
-                  "say this is insane but %s is free to do as they will even if it is fruitless\n "
+            print("%s twirls about swinging their dagger at absolutely nothing... Some would\n"
+                  "say this is insane but %s is free to do as they will even if it is fruitless\n"
                   "and tiring" % (self.name, self.name))
             self.tired()
         else:
@@ -128,7 +128,7 @@ class Player(Character):
                 if randint(0, self.hp) < 10:
                     self.hp = self.hp + 1
                     self.hp_max = self.hp_max + 1
-                    print("Through slaying enemies as they get in the way of %s's exploring %s has\n "
+                    print("Through slaying enemies as they get in the way of %s's exploring %s has\n"
                           "gained more experience and leveled up! %s gained one additional health point."
                           % (self.name, self.name, self.name))
             else:
@@ -137,9 +137,9 @@ class Player(Character):
     def enemy_attacks(self):
         if self.enemy.do_damage(self):
 
-            print("%s tried their hardest but was overcome by the power of the %s... %s has been slain\n "
-                  "and their soul sent to rest. Poor %s, their mother had high hopes that they would\n "
-                  "become a great and strong adventurer but the beastlies had other plans for them.\n "
+            print("%s tried their hardest but was overcome by the power of the %s... %s has been slain\n"
+                  "and their soul sent to rest. Poor %s, their mother had high hopes that they would\n"
+                  "become a great and strong adventurer but the beastlies had other plans for them.\n"
                   "Rest well %s, maybe you will be reincarnated as a capable adventure."
                   % (self.name, self.enemy.name, self.name, self.name, self.name))
 
