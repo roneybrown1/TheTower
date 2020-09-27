@@ -158,12 +158,12 @@ Commands = {
 p = Player()
 p.name = input("Hello adventurer, what do they call you? ")
 print("(Type 'help' to get a list of usable commands)\n")
-print("%s your adventure begins here, whether you live or die is up to the fates themselves\n"
-      "and a bit of skill on your behalf. I am your guide 'Aldos' and I will follow you\n"
-      "throughout your adventures, however, I will not interfere with the choices you make.\n" % p.name)
-print("Equipped with their satchel and trusty dagger passed down their bloodline to each\n"
-      "adventurer %s kisses their mother on the cheek and rushes out the front door towards\n"
-      "the 'Cave of Beastlies'. Coming to the entrance of the cave %s takes a deep breath\n"
+print("%s your adventure begins here, whether you live or die is up to the fates themselves\n "
+      "and a bit of skill on your behalf. I am your guide 'Aldos' and I will follow you\n "
+      "throughout your adventures, however, I will not interfere with the choices you make.\n " % p.name)
+print("Equipped with their satchel and trusty dagger passed down their bloodline to each\n "
+      "adventurer %s kisses their mother on the cheek and rushes out the front door towards\n "
+      "the 'Cave of Beastlies'. Coming to the entrance of the cave %s takes a deep breath\n "
       "and pushes forward." % (p.name, p.name))
 
 while p.hp > 0:
