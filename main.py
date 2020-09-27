@@ -153,6 +153,7 @@ class Player(Character):
                   "become a great and strong adventurer but the beastlies had other plans for them.\n"
                   "Rest well %s, maybe you will be reincarnated as a capable adventure."
                   % (self.name, self.enemy.name, self.name, self.name, self.name))
+            tprint("You Died....")
 
 
 
