@@ -140,7 +140,7 @@ class Player(Character):
                   "and their soul sent to rest. Poor %s, their mother had high hopes that they would\n "
                   "become a great and strong adventurer but the beastlies had other plans for them.\n "
                   "Rest well %s, maybe you will be reincarnated as a capable\n "
-                  "adventure." % (self.name, self.enemy.name, self.name, self.name, self.name))
+                  "adventure." % (self.name, self.enemy, self.name, self.name, self.name))
 
 
 
