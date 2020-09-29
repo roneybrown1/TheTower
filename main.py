@@ -44,7 +44,7 @@ class Character:
         self.gold = 0
         self.gold_max = 1000
         self.pots = 0
-        self.weap = ["Rusty Sword", "Broken Dagger", "Wooden Bow"]
+        self.weap = ["Sword", "Dagger", "Bow", "Fist"]
         self.curweap = 'none'
 
     def do_damage(self, enemy):
@@ -90,7 +90,7 @@ class Player(Character):
         self.gold = 0
         self.gold_max = 1000
         self.pots = 0
-        self.weap = ["Rusty Sword", "Broken Dagger", "Wooden Bow"]
+        self.weap = ["Sword", "Dagger", "Bow"]
         self.curweap = "none"
 
     def quit(self):
@@ -139,14 +139,15 @@ class Player(Character):
 
             else:
                 print("%s has overslept causing them to feel drowsy, one hp and evade\n"
-                      "point lost." % self.name)
+                      "points lost." % self.name)
                 self.hp = self.hp - 1
                 self.base_evade = self.base_evade - 1
 
     def explore(self):
         if self.state != 'normal':
             print("Are you insane?! %s is being attack by a %s and cannot continue exploring...\n"
-                  "FOCUS! If you are not ready to take on this beastlie, 'flee'." % (self.name, self.enemy.name))
+                  "FOCUS! If you are not ready to take on this beastlie, you can 'flee'."
+                  % (self.name, self.enemy.name))
             self.enemy_attacks()
         else:
             print("%s moves cautiously through the twisting and turning tunnels of the cave,\n"
@@ -177,20 +178,20 @@ class Player(Character):
                 self.state = 'normal'
             else:
                 print("%s couldn't escape from the %s and is forced to continue the battle.\n"
-                      "You can try to flee again or attack the beastlie with your dagger."
-                      % (self.name, self.enemy.name))
+                      "You can try to flee again or attack the beastlie with your %s."
+                      % (self.name, self.enemy.name, self.curweap))
                 self.enemy_attacks()
 
     def attack(self):
         if self.state != 'fight':
-            print("%s twirls about swinging their dagger at absolutely nothing... Some would\n"
+            print("%s twirls about swinging their %s at absolutely nothing... Some would\n"
                   "say this is insane but %s is free to do as they will even if it is fruitless\n"
-                  "and tiring" % (self.name, self.name))
+                  "and tiring" % (self.name, self.curweap, self.name))
             self.tired()
         else:
             if self.do_damage(self.enemy):
-                print("With a mighty swipe of their dagger %s lands a killing blow on the %s!"
-                      % (self.name, self.enemy.name))
+                print("%s readies themselves and with the right timing %s lands a killing blow on the %s!"
+                      % (self.name, self.name, self.enemy.name))
                 self.enemy = None
                 self.state = 'normal'
                 if random.randint(0, self.hp) < 10:
@@ -264,27 +265,27 @@ Commands = {
 p = Player()
 p.name = input("Hello adventurer, what do they call you? ")
 print("%s well met! Choose your starting weapon." % p.name)
-print("Choose between the 1.) Rusty Sword, 2.) Broken Dagger, or 3.) Wooden Bow")
+print("Choose between the 1.) Sword, 2.) Dagger, or 3.) Bow")
 weapchoice = input("Choose your weapon: ")
 if p.curweap == "none":
     if weapchoice == "1":
-        p.curweap = "Rusty Sword"
+        p.curweap = "Sword"
         p.base_attack = 13
         p.base_evade_max = 8
         p.base_evade = p.base_evade_max
     if weapchoice == "2":
-        p.curweap = "Broken Dagger"
+        p.curweap = "Dagger"
         p.base_attack = 9
         p.base_evade_max = 11
         p.base_evade = p.base_evade_max
     if weapchoice == "3":
-        p.curweap = "Wooden Bow"
+        p.curweap = "Bow"
         p.base_attack = 5
         p.base_evade_max = 15
         p.base_evade = p.base_evade_max
 else:
     print("No valid choice was made, you will go in with your bare hands.")
-    p.curweap = "None"
+    p.curweap = "Fist"
     p.base_attack = 2
     p.base_evade_max = 20
     p.base_evade = p.base_evade_max
