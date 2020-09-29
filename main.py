@@ -126,8 +126,6 @@ class Player(Character):
             print("%s finds a place to settle, they brush any dirt and debris away.\n"
                   "Taking their satchel using it as a pillow, %s drift off to sleep.\n"
                   "%s is refreshed, gained one hp and evade point." % (self.name, self.name, self.name))
-            self.hp = self.hp + 1
-            self.base_evade = self.base_evade + 1
         if random.randint(0, 1):
             self.enemy = Enemy(self)
             print("A quick scuttle of feet/legs awakens %s from their sleep, before\n"
@@ -162,8 +160,9 @@ class Player(Character):
                   "Oh no! %s has been attacked by a(n) %s!" % (self.name, self.name, self.enemy.name))
             self.state = 'fight'
         else:
-            if random.randint(0, 1):
-                self.tired()
+            if self.state != 'fight':
+                if random.randint(0, 1):
+                    self.tired()
 
     def flee(self):
         if self.state != 'fight':
@@ -189,7 +188,7 @@ class Player(Character):
         if self.state != 'fight':
             print("%s twirls about swinging their %s at absolutely nothing... Some would\n"
                   "say this is insane but %s is free to do as they will even if it is fruitless\n"
-                  "and tiring" % (self.name, self.curweap, self.name))
+                  "and tiring." % (self.name, self.curweap, self.name))
             self.tired()
         else:
             if self.do_damage(self.enemy):
