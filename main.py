@@ -1,32 +1,58 @@
 from art import *
+import sys
 import random
 from random import randint
 
 
 def main():
-    pass
+    tprint("The Tower")
+    print('--------------------------------------------------------')
+    print("1.) Start")
+    print("2.) Save")
+    print("3.) Exit")
+    options = input(">> ")
+
+    if options == "1":
+        pass
+    elif options == "2":
+        print("The save system is not yet implemented.")
+        pass
+    elif options == "3":
+        sys.exit()
 
 
 if __name__ == '__main__':
     main()
 
+weapons = {"Great Sword": 40}
 
 class Character:
     def __init__(self):
         self.name = ""
-        self.hp = 1
-        self.hp_max = 1
+        self.state = 'normal'
+        self.hp = 50
+        self.hp_max = 50
         self.lvl = 1
+        self.base_attack = 10
+        self.base_def = 15
+        self.base_def_max = 15
+        self.base_evade = 10
+        self.base_evade_max = 10
         self.gold = 0
+        self.gold_max = 1000
         self.pots = 0
+        self.weap = ["Rusty Sword", "Broken Dagger", "Wooden Bow"]
+        self.curweap = 'none'
 
     def do_damage(self, enemy):
-        damage = min(max(randint(0, self.hp) - randint(0, enemy.hp), 0), enemy.hp)
+        damage = min(max(randint(0, self.base_attack) - randint(0, enemy.hp), 0),
+                     enemy.hp, self.base_def, self.base_evade)
         enemy.hp = enemy.hp - damage
         if damage == 0:
-            print("%s was able to evade %s attack." % (enemy.name, self.name))
+            print("%s was able to evade %s's attack." % (enemy.name, self.name))
+            print(" 0 damage taken.")
         else:
-            print("%s landed a damaging blow on the %s." % (self.name, enemy.name))
+            print("%s landed a damaging blow on the %s,\n" % (self.name, enemy.name), damage, "damage was dealt!")
             return enemy.hp <= 0
 
 
@@ -41,18 +67,28 @@ class Enemy(Character):
         titleTwo = random.choice(second)
         self.name = (titleOne + " " + titleTwo)
         self.hp = random.randint(1, player.hp)
+        self.base_attack = 15
+        self.base_def = 10
+        self.base_evade = 10
 
 
 class Player(Character):
     def __init__(self):
         Character.__init__(self)
         self.state = 'normal'
-        self.hp = 25
-        self.hp_max = 25
+        self.hp = 50
+        self.hp_max = 50
         self.lvl = 1
+        self.base_attack = 10
+        self.base_def = 15
+        self.base_def_max = 15
+        self.base_evade = 10
+        self.base_evade_max = 10
         self.gold = 0
         self.gold_max = 1000
         self.pots = 0
+        self.weap = ["Rusty Sword", "Broken Dagger", "Wooden Bow"]
+        self.curweap = 'none'
 
     def quit(self):
         print("%s could not handle the stress of being alone, they sat behind\n"
@@ -64,13 +100,17 @@ class Player(Character):
         print(Commands.keys())
 
     def status(self):
-        print("%s's current stats are...\n Level: %s\n Health: %d/%d\n Gold: %d/%d\n Potions: %s"
-              % (self.name, self.lvl, self.hp, self.hp_max, self.gold, self.gold_max, self.pots))
+        print("%s's current stats are...\n Level: %s\n Health: %d/%d\n Attack: %s\n "
+              "Def: %d/%d\n Evade: %d/%d\n Weapon: %s\n Gold: %d/%d\n Potions: %s"
+              % (self.name, self.lvl, self.hp, self.hp_max, self.base_attack,
+                 self.base_def, self.base_def_max, self.base_evade, self.base_evade_max,
+                 self.curweap, self.gold, self.gold_max, self.pots))
 
     def tired(self):
-        print("%s can feel themselves getting weaker, one hp lost.\n"
+        print("%s can feel themselves getting weaker, one hp and evade point lost.\n"
               "You are tired and needs to rest." % self.name)
         self.hp = max(1, self.hp - 1)
+        self.base_evade = max(1, self.base_evade - 1)
 
     def rest(self):
         if self.state != 'normal':
@@ -79,21 +119,26 @@ class Player(Character):
         else:
             print("%s finds a place to settle, they brush any dirt and debris away.\n"
                   "Taking their satchel using it as a pillow, %s drift off to sleep.\n"
-                  "%s is refreshed, gained one hp." % (self.name, self.name, self.name))
+                  "%s is refreshed, gained one hp and evade point." % (self.name, self.name, self.name))
             self.hp = self.hp + 1
+            self.base_evade = self.base_evade + 1
         if random.randint(0, 1):
             self.enemy = Enemy(self)
             print("A quick scuttle of feet/legs awakens %s from their sleep, before\n"
-                  "they can react they are attacked by a %s." % (self.name, self.enemy.name))
+                  "they can react they are attacked by a(n) %s." % (self.name, self.enemy.name))
             self.state = 'fight'
             self.enemy_attacks()
         else:
             if self.hp < self.hp_max:
                 self.hp = self.hp + 1
+            if self.base_evade < self.base_evade_max:
+                self.base_evade = self.base_evade + 1
 
             else:
-                print("%s has overslept causing them to feel drowsy, one hp lost." % self.name)
+                print("%s has overslept causing them to feel drowsy, one hp and evade\n"
+                      "point lost." % self.name)
                 self.hp = self.hp - 1
+                self.base_evade = self.base_evade - 1
 
     def explore(self):
         if self.state != 'normal':
@@ -121,7 +166,10 @@ class Player(Character):
             if randint(1, self.hp + 5) > randint(1, self.enemy.hp):
                 print("Unsure if they wanted to take on the challenger %s searches around for\n"
                       "an escape route seeing an opening %s dashes towards the enemies blindside\n"
-                      "and escaped into the darkness from the %s." % (self.name, self.name, self.enemy.name))
+                      "and escaped into the darkness from the %s.\n" 
+                      "(Careful, this action reduces defense.)"
+                      % (self.name, self.name, self.enemy.name))
+                self.base_def = self.base_def - 1
                 self.enemy = None
                 self.state = 'normal'
             else:
@@ -138,7 +186,7 @@ class Player(Character):
             self.tired()
         else:
             if self.do_damage(self.enemy):
-                print("With a mighty swipe of their dagger %s lands a killing blow on the %s"
+                print("With a mighty swipe of their dagger %s lands a killing blow on the %s!"
                       % (self.name, self.enemy.name))
                 self.enemy = None
                 self.state = 'normal'
@@ -146,12 +194,21 @@ class Player(Character):
                     self.hp = self.hp + 3
                     self.hp_max = self.hp_max + 3
                     self.lvl = self.lvl + 1
+                    self.base_evade = self.base_evade + 3
+                    self.base_evade_max = self.base_evade_max + 3
+                    self.base_attack = self.base_attack + 1
                     print("Through slaying enemies as they get in the way of %s's exploring %s has\n"
-                          "gained more experience and leveled up! %s gained three additional health point.\n"
+                          "gained more experience and leveled up! %s gained three additional health points,\n"
+                          "three additional evade points, and one attack point!"
                           % (self.name, self.name, self.name,))
+
                 if random.randint(0, self.gold) < 10:
                     self.gold = self.gold + 5
                     print("%s found five gold pieces! Cha-ching!" % self.name)
+                if random.randint(0, self.pots) < 5:
+                    self.pots = self.pots + 1
+                    print("%s found one health potion!" % self.name)
+                print(self.status())
             else:
                 self.enemy_attacks()
 
@@ -165,6 +222,26 @@ class Player(Character):
                   % (self.name, self.enemy.name, self.name, self.name, self.name))
             tprint("You Died....")
 
+    def use(self):
+        if self.pots > 0:
+            answer = input("Do you want to use a potion? y/n: ")
+            if answer == 'y' or answer == 'yes' or answer == 'Y' or answer == 'Yes':
+                if self.hp == self.hp_max:
+                    print("%s health is full already." % self.name)
+                elif self.hp < self.hp_max:
+                    self.pots = self.pots - 1
+                    self.hp = self.hp_max
+                    print("%s is fully healed from the health potion!" % self.name)
+                elif answer == 'n' or answer == 'no' or answer == 'N' or answer == 'No':
+                    return()
+                else:
+                    print("That isn't a valid option.")
+                    return()
+        if self.pots == 0:
+            print("%s does not have any health potions to use." % self.name)
+            return()
+
+
 
 
 
@@ -176,15 +253,18 @@ Commands = {
     'explore': Player.explore,
     'flee': Player.flee,
     'attack': Player.attack,
+    'use': Player.use,
 }
-tprint("The Tower")
-print('--------------------------------------------------------')
 p = Player()
 p.name = input("Hello adventurer, what do they call you? ")
+print("%s well met! Choose your starting weapon." % p.name)
+print("Choose between the 'R'usty Sword, 'B'roken Dagger, or 'W'ooden Bow")
+weapchoice = input("Choose your weapon: ")
 print("(Type 'help' to get a list of usable commands)\n")
 print("%s your adventure begins here, whether you live or die is up to the fates themselves\n "
       "and a bit of skill on your behalf. I am your guide 'Aldos' and I will follow you\n "
-      "throughout your adventures, however, I will not interfere with the choices you make.\n " % p.name)
+      "throughout your adventures, however, I will not interfere with the choices you make.\n "
+      % p.name)
 print("Equipped with their satchel and trusty dagger passed down their bloodline to each\n "
       "adventurer %s kisses their mother on the cheek and rushes out the front door towards\n "
       "the 'Cave of Beastlies'. Coming to the entrance of the cave %s takes a deep breath\n "
