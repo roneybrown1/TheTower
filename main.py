@@ -1,7 +1,11 @@
 from art import *
 import sys
+import os
+import json
 import random
 from random import randint
+
+save_state = False
 
 
 def main():
@@ -10,15 +14,23 @@ def main():
     print('---------- A Text-Based RPG by Ron and Ben. ------------')
     print('--------------------------------------------------------')
     print("1.) Start")
-    print("2.) Save")
+    print("2.) Continue")
     print("3.) Exit")
     options = input(">> ")
 
     if options == "1":
         pass
     elif options == "2":
-        print("The save system is not yet implemented.")
-        main()
+        if save_state is True:
+            load_name = Player.save
+            path_two = 'path_to_dir{0}.json'.format(load_name)
+            with open(path_two, 'r') as f:
+                j = json.load(f)
+                name = str(j['name'])
+        else:
+            if save_state is False:
+                print("There are no saved games.")
+                main()
     elif options == "3":
         sys.exit()
 
@@ -26,6 +38,15 @@ def main():
 if __name__ == '__main__':
     main()
 
+weapons = {"Rapier": 40, "Sabre": 50, "Cutlass": 60, "Scimitar": 70, "Long Sword": 90, "Bastard Sword": 120,
+           "Great Sword": 150}
+
+
+class Item(object):
+    def __init__(self, name, strvalue, evdvalue):
+        self.name = name
+        self.strvalue = strvalue
+        self.evdvalue = evdvalue
 
 
 class Character:
@@ -45,6 +66,7 @@ class Character:
         self.pots = 0
         self.weap = ["Sword", "Dagger", "Bow", "Fist"]
         self.curweap = 'none'
+        self.inventory = 'none'
 
     def do_damage(self, enemy):
         damage = min(max(randint(0, self.base_attack) - randint(0, enemy.hp), 0),
@@ -93,14 +115,36 @@ class Player(Character):
         self.gold = 0
         self.gold_max = 1000
         self.pots = 0
-        self.weap = ["Sword", "Dagger", "Bow"]
+        self.weap = {}
         self.curweap = "none"
+        self.inventory = ["none"]
+
+    def save(self):
+        if self.state != 'normal':
+            print("You cannot save at this time!")
+            self.enemy_attacks()
+        else:
+            answer = input("Do you want to save the game? y/n")
+            if answer == 'y' or answer == 'yes' or answer == 'Y' or answer == 'Yes':
+                print("Game has been saved.")
+                save_name = input("savename: ")
+                path = 'path_to_dir{0}.json'.format(save_name)
+                data = {
+                    'name': save_name
+                }
+                with open(path, 'w+') as f:
+                    json.dump(data, f)
+                    save_state = True
+            elif answer == 'n' or answer == 'no' or answer == 'N' or answer == 'No':
+                return ()
+
 
     def quit(self):
         print("%s could not handle the stress of being alone, they sat behind\n"
               "a rock pulling their knees to their chest, closed their eyes\n"
               "and faded away into nothingness... Sleep well sweet %s, you\n"
               "tried your hardest..." % (self.name, self.name))
+        exit()
 
     def help(self):
         print(Commands.keys())
@@ -172,7 +216,7 @@ class Player(Character):
             if randint(1, self.hp + 5) > randint(1, self.enemy.hp):
                 print("Unsure if they wanted to take on the challenger %s searches around for\n"
                       "an escape route seeing an opening %s dashes towards the enemies blindside\n"
-                      "and escaped into the darkness from the %s.\n" 
+                      "and escaped into the darkness from the %s.\n"
                       "(Careful, this action reduces defense.)"
                       % (self.name, self.name, self.enemy.name))
                 self.base_def = self.base_def - 1
@@ -214,12 +258,14 @@ class Player(Character):
                 if random.randint(0, self.pots) < 5:
                     self.pots = self.pots + 1
                     print("%s found one health potion!" % self.name)
+                if random.randint(0, 40) < 20:
+                    print("%s found a %s!" % (self.name, random.choice(weapons)))
+                    self.weap = random.choice(weapons)
             else:
                 self.enemy_attacks()
 
     def enemy_attacks(self):
         if self.enemy.do_damage(self):
-
             print("%s tried their hardest but was overcome by the power of the %s... %s has been slain\n"
                   "and their soul sent to rest. Poor %s, their mother had high hopes that they would\n"
                   "become a great and strong adventurer but the beastlies had other plans for them.\n"
@@ -238,23 +284,40 @@ class Player(Character):
                     if self.hp == self.hp_max:
                         print("%s health is full already." % self.name)
                     elif self.hp < self.hp_max:
-                            self.pots = self.pots - 1
-                            self.hp = self.hp_max
-                            print("%s is fully healed from the health potion!" % self.name)
+                        self.pots = self.pots - 1
+                        self.hp = self.hp_max
+                        print("%s is fully healed from the health potion!" % self.name)
                 elif answer == 'n' or answer == 'no' or answer == 'N' or answer == 'No':
-                    return()
+                    return ()
                 else:
                     print("That isn't a valid option.")
-                    return()
+                    return ()
             if self.pots == 0:
                 print("%s does not have any health potions to use." % self.name)
-                return()
+                return ()
 
-
-
+    def inventory(self):
+        if self.state != 'normal':
+            print("Inventory can only be used outside of battle!")
+            self.enemy_attacks()
+        elif self.inventory != "None" or self.inventory != "none":
+            print("What do you want to check?")
+            print("1.) Equipment")
+            print("2.) Crafting")
+            print("3.) Treasures")
+            answer = input(" ")
+            if answer == '1':
+                print(self.weap)
+                print("Do you want to equip an item?")
+                print("1.) Weapon")
+                print("2.) Armor")
+                answer = input(" ")
+                if answer == '1':
+                    print(self.weap)
 
 
 Commands = {
+    'save': Player.save,
     'quit': Player.quit,
     'help': Player.help,
     'status': Player.status,
@@ -263,6 +326,7 @@ Commands = {
     'flee': Player.flee,
     'attack': Player.attack,
     'use': Player.use,
+    'inv': Player.inventory,
 }
 p = Player()
 p.name = input("Hello adventurer, what do they call you? ")
