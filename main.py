@@ -26,7 +26,6 @@ def main():
 if __name__ == '__main__':
     main()
 
-weapons = {"Great Sword": 40}
 
 
 class Character:
@@ -62,10 +61,14 @@ class Character:
 class Enemy(Character):
     def __init__(self, player):
         Character.__init__(self)
-        first = ("giant", "fire-eyed", "half-dead", "rotting", "bloated", "hulking", "grizzly", "angered", "limping",
-                 "erratic", "frenzied", "yellow", "red", "black", "wasting", "tall", "short", "gross")
+        first = ("giant", "fire-eyed", "half-dead", "rotting", "bloated", "hulking", "grizzly", "angered", "injured",
+                 "erratic", "frenzied", "yellow", "red", "black", "wasting", "gross", "ghastly", "demonic", "doomed",
+                 "savage", "stone", "elemental", "abyssal", "plague", "behemoth", "gelatinous", "zombie", "oozing",
+                 "lesser", "fabled", "fiendish", "possessed")
         second = ("goblin", "warlock", "witch", "minotaur", "kobald", "skeleton", "ogre", "rat", "spirit", "troll",
-                  "vampire", "banshee")
+                  "vampire", "banshee", "warrior", "dog", "spider", "snake", "harpy", "specter", "dwarf", "hobgoblin",
+                  "bat", "familiar", "golem", "thief", "orc", "halfling", "drow", "pixie", "satyr", "imp", "hag",
+                  "lich", "crawler", "wasp", "mage")
         titleOne = random.choice(first)
         titleTwo = random.choice(second)
         self.name = (titleOne + " " + titleTwo)
