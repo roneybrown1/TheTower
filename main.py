@@ -5,10 +5,14 @@ import json
 import random
 from random import randint
 
+
 # Variables
 save_state = False
 weapons = {"Rapier": 40, "Sabre": 50, "Cutlass": 60, "Scimitar": 70, "Long Sword": 90, "Bastard Sword": 120,
            "Great Sword": 150}
+
+save_state = True
+
 
 
 def main():
@@ -25,9 +29,10 @@ def main():
         pass
     elif options == "2":
         if save_state is True:
-            load_name = Player.save
-            path_two = 'path_to_dir{0}.json'.format(load_name)
-            with open(path_two, 'r') as f:
+            load_name = input("Please enter save file name: ")
+            load_path = ('saves/' + load_name + '.json')
+            print ('DEBUG: Loading ' + (load_path))
+            with open(load_path, 'r') as f:
                 j = json.load(f)
                 name = str(j['name'])
         else:
@@ -130,14 +135,16 @@ class Player(Character):
             answer = input("Do you want to save the game? y/n ")
             save_state = True
             if answer == 'y' or answer == 'yes' or answer == 'Y' or answer == 'Yes':
-                print("Game has been saved.")
+                print("Preparing to save game")
                 save_name = input("savename: ")
-                path = 'path_to_dir{0}.json'.format(save_name)
+                path = ('saves/' + save_name + '.json')
+
                 data = {
                     'name': save_name
                 }
                 with open(path, 'w+') as f:
                     json.dump(data, f)
+                print ('DEBUG: Saved ' + (save_name) + ' in '  + (path))
             elif answer == 'n' or answer == 'no' or answer == 'N' or answer == 'No':
                 return ()
 
