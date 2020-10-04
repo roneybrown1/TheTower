@@ -361,6 +361,7 @@ Commands = {
     'inv': Player.inventory,
 }
 
+
 def main():
     tprint("The Tower ")
     print('--------------------------------------------------------')
@@ -374,8 +375,8 @@ def main():
     if options == "1":
         pass
     elif options == "2":
-            load_game()
-            print ('Welcome back '+ Character.name + '!')
+        load_game()
+        print ('Welcome back ' + Character.name + '!')
 
     elif options == "3":
         sys.exit()
