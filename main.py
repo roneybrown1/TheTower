@@ -390,68 +390,83 @@ def main():
     options = input(">> ")
 
     if options == "1":
-        pass
+        hero = Player()
+        hero.name = input("Hello adventurer, what do they call you? ")
+        print("%s well met! Choose your starting weapon." % hero.name)
+        print("Choose between the 1.) Sword, 2.) Dagger, or 3.) Bow")
+        weapchoice = input("Choose your weapon: ")
+        if hero.curweap == "none":
+            if weapchoice == "1":
+                hero.curweap = "Sword"
+                hero.base_attack = 13
+                hero.base_evade_max = 8
+                hero.base_evade = hero.base_evade_max
+            if weapchoice == "2":
+                hero.curweap = "Dagger"
+                hero.base_attack = 9
+                hero.base_evade_max = 11
+                hero.base_evade = hero.base_evade_max
+            if weapchoice == "3":
+                hero.curweap = "Bow"
+                hero.base_attack = 5
+                hero.base_evade_max = 15
+                hero.base_evade = hero.base_evade_max
+
+            print("(Type 'help' to get a list of usable commands)\n")
+            print("%s your adventure begins here, whether you live or die is up to the fates themselves\n"
+                      "and a bit of skill on your behalf. I am your guide 'Aldos' and I will follow you\n"
+                      "throughout your adventures, however, I will not interfere with the choices you make.\n"
+                      % hero.name)
+            print("Equipped with their satchel and trusty dagger passed down their bloodline to each\n"
+                      "adventurer %s kisses their mother on the cheek and rushes out the front door towards\n"
+                      "the 'Cave of Beastlies'. Coming to the entrance of the cave %s takes a deep breath\n"
+                      "and pushes forward." % (hero.name, hero.name))
+            pass
+
+        else:
+            print("No valid choice was made, you will go in with your bare hands.")
+            hero.curweap = "Fist"
+            hero.base_attack = 2
+            hero.base_evade_max = 20
+            hero.base_evade = hero.base_evade_max
+            print("(Type 'help' to get a list of usable commands)\n")
+            print("%s your adventure begins here, whether you live or die is up to the fates themselves\n"
+                  "and a bit of skill on your behalf. I am your guide 'Aldos' and I will follow you\n"
+                  "throughout your adventures, however, I will not interfere with the choices you make.\n"
+                  % hero.name)
+            print("Equipped with their satchel and trusty dagger passed down their bloodline to each\n"
+                  "adventurer %s kisses their mother on the cheek and rushes out the front door towards\n"
+                  "the 'Cave of Beastlies'. Coming to the entrance of the cave %s takes a deep breath\n"
+                  "and pushes forward." % (hero.name, hero.name))
+            pass
+
     elif options == "2":
         load_game()
-        print ('Welcome back ' + Character.name + '!')
+        hero = Player()
+        hero.name = Character.name
+        print ('Welcome back ' + hero.name + '!')
 
 
     elif options == "3":
         sys.exit()
 
+    while hero.hp > 0:
+        line = input(">> ")
+        args = line.split()
+        if len(args) > 0:
+            commandFound = False
+            for c in Commands.keys():
+                if args[0] == c[:len(args[0])]:
+                    Commands[c](hero)
+                    commandFound = True
+                    break
+            if not commandFound:
+                print("%s is confused about the choice made..." % hero.name)
+
 
 if __name__ == '__main__':
     main()
 
-p = Player() # P ISSUE HERE PERHAPS?
-p.name = input("Hello adventurer, what do they call you? ")
-print("%s well met! Choose your starting weapon." % p.name)
-print("Choose between the 1.) Sword, 2.) Dagger, or 3.) Bow")
-weapchoice = input("Choose your weapon: ")
-if p.curweap == "none":
-    if weapchoice == "1":
-        p.curweap = "Sword"
-        p.base_attack = 13
-        p.base_evade_max = 8
-        p.base_evade = p.base_evade_max
-    if weapchoice == "2":
-        p.curweap = "Dagger"
-        p.base_attack = 9
-        p.base_evade_max = 11
-        p.base_evade = p.base_evade_max
-    if weapchoice == "3":
-        p.curweap = "Bow"
-        p.base_attack = 5
-        p.base_evade_max = 15
-        p.base_evade = p.base_evade_max
-else:
-    print("No valid choice was made, you will go in with your bare hands.")
-    p.curweap = "Fist"
-    p.base_attack = 2
-    p.base_evade_max = 20
-    p.base_evade = p.base_evade_max
 
-print("(Type 'help' to get a list of usable commands)\n")
-print("%s your adventure begins here, whether you live or die is up to the fates themselves\n"
-      "and a bit of skill on your behalf. I am your guide 'Aldos' and I will follow you\n"
-      "throughout your adventures, however, I will not interfere with the choices you make.\n"
-      % p.name)
-print("Equipped with their satchel and trusty dagger passed down their bloodline to each\n"
-      "adventurer %s kisses their mother on the cheek and rushes out the front door towards\n"
-      "the 'Cave of Beastlies'. Coming to the entrance of the cave %s takes a deep breath\n"
-      "and pushes forward." % (p.name, p.name))
-
-while p.hp > 0:
-    line = input(">> ")
-    args = line.split()
-    if len(args) > 0:
-        commandFound = False
-        for c in Commands.keys():
-            if args[0] == c[:len(args[0])]:
-                Commands[c](p)
-                commandFound = True
-                break
-        if not commandFound:
-            print("%s is confused about the choice made..." % p.name)
 
 
