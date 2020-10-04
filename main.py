@@ -65,6 +65,7 @@ class Character:
         self.gold_max = 1000
         self.pots = 0
         self.weap = ["Sword", "Dagger", "Bow", "Fist"]
+        self.weapons = ['Rapier', 'Sabre', 'Cutlass', 'Scimitar', 'Long Sword', 'Bastard Sword', 'Great Sword']
         self.curweap = 'none'
         self.inventory = 'none'
 
@@ -200,7 +201,7 @@ class Player(Character):
             print("%s moves cautiously through the twisting and turning tunnels of the cave,\n"
                   "with each step the cave seems to be alive and changing. %s continues forward."
                   % (self.name, self.name))
-            if random.randint(0, 100) > 75:
+            if random.randint(0, 100) > 95:
                 print("%s sees an opening in the cave wall, there is a faint glimmer in the distance\n"
                       % self.name)
                 explore = input("Explore the opening? y/n: ")
@@ -213,19 +214,22 @@ class Player(Character):
                             print("%s slowly opens the chest, as they do they reveal " % self.name)
                             if random.randint(0, 50) > 25:
                                 if random.randint(0, 20) > 10:
-                                    print("a shimmering %s" % random.choices(weapons))
-                                    random.choice(weapons)
+                                    print("a shimmering %s" % random.choices(self.weapons))
+                                    random.choice(self.weapons)
                                     equip = input("Do you want to equip the item? y/n: ")
                                     if equip == 'y':
-                                        self.curweap = self.weap
+                                        self.curweap = random.choice(self.weapons)
                                     elif equip == 'n':
                                         print("The item has been added to your inventory.")
                                         self.inventory = self.weap
                                 elif random.randint(0, 20) < 10:
                                     print("25 gold pieces!")
                                     self.gold = self.gold + 25
+                                else:
+                                    print("The chest was empty, someone or something must have\n"
+                                          "gotten here first. %s continues exploring the cave" % self.name)
                         elif open == 'n':
-                            print("%s decides to not open the chest and continue exploring.")
+                            print("%s decides to not open the chest and continue exploring." % self.name)
 
         if random.randint(0, 1):
             self.enemy = Enemy(self)
@@ -290,8 +294,8 @@ class Player(Character):
                         self.pots = self.pots + 1
                         print("%s found one health potion!" % self.name)
                         if random.randint(0, 40) > 40:
-                            print("%s found a %s!" % (self.name, random.choice(weapons)))
-                            self.weap = random.choice(weapons)
+                            print("%s found a %s!" % (self.name, random.choice(self.weapons)))
+                            self.weap = random.choice(self.weapons)
                 print(self.status())
 
             else:
