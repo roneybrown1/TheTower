@@ -12,9 +12,6 @@ weapons = {"Rapier": 40, "Sabre": 50, "Cutlass": 60, "Scimitar": 70, "Long Sword
            "Great Sword": 150}
 
 
-
-
-
 class Item(object):
     def __init__(self, name, strvalue, evdvalue):
         self.name = name
@@ -109,9 +106,10 @@ class Player(Character):
                 path = ('saves/' + save_name + '.json')
 
                 data = {
-                    'savename': save_name, 'name':self.name, 'lvl': self.lvl, 'hp': self.hp, 'hp_max':self.hp_max,
-                    'base_atk':self.base_attack, 'base_def':self.base_def, 'base_def_max':self.base_def_max, 'base_evade':self.base_evade,
-                    'base_evade_max':self.base_evade_max, 'curweap':self.curweap,'gold':self.gold,'gold_max':self.gold_max,'pots':self.pots
+                    'savename': save_name, 'name': self.name, 'lvl': self.lvl, 'hp': self.hp, 'hp_max': self.hp_max,
+                    'base_atk': self.base_attack, 'base_def': self.base_def, 'base_def_max': self.base_def_max,
+                    'base_evade': self.base_evade, 'base_evade_max': self.base_evade_max, 'curweap': self.curweap,
+                    'gold': self.gold, 'gold_max': self.gold_max, 'pots': self.pots
                 }
                 with open(path, 'w+') as f:
                     json.dump(data, f)
@@ -354,6 +352,7 @@ Commands = {
     'inv': Player.inventory,
 }
 
+
 def load_game():
     load_name = input("Please enter save file name: ")
     load_path = ('saves/' + load_name + '.json')
@@ -416,13 +415,13 @@ def main():
 
             print("(Type 'help' to get a list of usable commands)\n")
             print("%s your adventure begins here, whether you live or die is up to the fates themselves\n"
-                      "and a bit of skill on your behalf. I am your guide 'Aldos' and I will follow you\n"
-                      "throughout your adventures, however, I will not interfere with the choices you make.\n"
-                      % hero.name)
+                  "and a bit of skill on your behalf. I am your guide 'Aldos' and I will follow you\n"
+                  "throughout your adventures, however, I will not interfere with the choices you make.\n"
+                  % hero.name)
             print("Equipped with their satchel and trusty dagger passed down their bloodline to each\n"
-                      "adventurer %s kisses their mother on the cheek and rushes out the front door towards\n"
-                      "the 'Cave of Beastlies'. Coming to the entrance of the cave %s takes a deep breath\n"
-                      "and pushes forward." % (hero.name, hero.name))
+                  "adventurer %s kisses their mother on the cheek and rushes out the front door towards\n"
+                  "the 'Cave of Beastlies'. Coming to the entrance of the cave %s takes a deep breath\n"
+                  "and pushes forward." % (hero.name, hero.name))
             pass
 
         else:
@@ -462,7 +461,6 @@ def main():
         print('debug:' + str(hero.lvl) + str(hero.gold) + str(hero.hp) + str(hero.hp_max) + str(hero.base_attack)
               + str(hero.base_def) + str(hero.base_def_max) + str(hero.base_evade) + str(hero.base_evade_max)
               + str(hero.weap) + str(hero.pots))
-
 
     elif options == "3":
         sys.exit()
