@@ -24,6 +24,7 @@ def main():
         if save_state is True:
             input("Please enter save file name: ")
             load_path = ('saves/' + load_name + '.json')
+            print ('DEBUG: Loading ' + (load_path))
             with open(load_path, 'r') as f:
                 j = json.load(f)
                 name = str(j['name'])
