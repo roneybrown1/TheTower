@@ -375,7 +375,6 @@ def load_game():
             Character.pots = str(j['pots'])
 
     else:
-        print('Debug: Invalid save name!')
         print('Invalid save name!')
         main()
 
