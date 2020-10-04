@@ -121,7 +121,7 @@ class Player(Character):
                 path = ('saves/' + save_name + '.json')
 
                 data = {
-                    'name': save_name
+                    'name': save_name, 'lvl': self.lvl, 'hp': self.hp
                 }
                 with open(path, 'w+') as f:
                     json.dump(data, f)
