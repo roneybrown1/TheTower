@@ -7,8 +7,8 @@ from random import randint
 
 save_state = False
 
-
 def main():
+
     tprint("The Tower ")
     print('--------------------------------------------------------')
     print('---------- A Text-Based RPG by Ron and Ben. ------------')
@@ -73,10 +73,12 @@ class Character:
                      enemy.hp, self.base_def, self.base_evade)
         enemy.hp = enemy.hp - damage
         if damage == 0:
-            print("%s was able to evade %s's attack." % (enemy.name, self.name))
-            print(" 0 damage taken.")
+            print("%s was able to evade %s's \033[1;31;1mattack\033[1;37;1m." % (enemy.name, self.name))
+            print("\033[1;31;1m""0 damage""\033[1;37;1m taken.")
         else:
-            print("%s landed a damaging blow on the %s,\n" % (self.name, enemy.name), damage, "damage was dealt!")
+            print("%s landed a \033[1;31;1mdamaging\033[1;37;1m blow on the %s,"
+                  % (self.name, enemy.name))
+            print("\033[1;31;1m" + str(damage) + "\033[1;31;1m", "\033[1;37;1mdamage was dealt!")
             return enemy.hp <= 0
 
 
@@ -124,7 +126,8 @@ class Player(Character):
             print("You cannot save at this time!")
             self.enemy_attacks()
         else:
-            answer = input("Do you want to save the game? y/n")
+            answer = input("Do you want to save the game? y/n ")
+            save_state = True
             if answer == 'y' or answer == 'yes' or answer == 'Y' or answer == 'Yes':
                 print("Game has been saved.")
                 save_name = input("savename: ")
@@ -134,10 +137,8 @@ class Player(Character):
                 }
                 with open(path, 'w+') as f:
                     json.dump(data, f)
-                    save_state = True
             elif answer == 'n' or answer == 'no' or answer == 'N' or answer == 'No':
                 return ()
-
 
     def quit(self):
         print("%s could not handle the stress of being alone, they sat behind\n"
@@ -173,7 +174,8 @@ class Player(Character):
         if random.randint(0, 1):
             self.enemy = Enemy(self)
             print("A quick scuttle of feet/legs awakens %s from their sleep, before\n"
-                  "they can react they are attacked by a(n) %s." % (self.name, self.enemy.name))
+                  "they can react they are \033[1;31;1mattacked\033[0;37;1m" " by a(n) %s."
+                  % (self.name, self.enemy.name))
             self.state = 'fight'
             self.enemy_attacks()
         else:
@@ -191,7 +193,7 @@ class Player(Character):
     def explore(self):
         if self.state != 'normal':
             print("Are you insane?! %s is being attack by a %s and cannot continue exploring...\n"
-                  "FOCUS! If you are not ready to take on this beastlie, you can 'flee'."
+                  "FOCUS! If you are not ready to take on this beastlie, you can \033[1;34;1m'flee'\033[1;37;1m."
                   % (self.name, self.enemy.name))
             self.enemy_attacks()
         else:
@@ -201,7 +203,8 @@ class Player(Character):
         if random.randint(0, 1):
             self.enemy = Enemy(self)
             print("As %s moves through the cave they notice a scuttling sound coming from behind them.\n"
-                  "Oh no! %s has been attacked by a(n) %s!" % (self.name, self.name, self.enemy.name))
+                  "Oh no! %s has been \033[1;31;1mattacked\033[0;37;1m by a(n) %s!"
+                  % (self.name, self.name, self.enemy.name))
             self.state = 'fight'
         else:
             if self.state != 'fight':
@@ -215,7 +218,7 @@ class Player(Character):
         else:
             if randint(1, self.hp + 5) > randint(1, self.enemy.hp):
                 print("Unsure if they wanted to take on the challenger %s searches around for\n"
-                      "an escape route seeing an opening %s dashes towards the enemies blindside\n"
+                      "an escape route seeing an opening %s dashes towards the enemy's blindside\n"
                       "and escaped into the darkness from the %s.\n"
                       "(Careful, this action reduces defense.)"
                       % (self.name, self.name, self.enemy.name))
@@ -224,7 +227,8 @@ class Player(Character):
                 self.state = 'normal'
             else:
                 print("%s couldn't escape from the %s and is forced to continue the battle.\n"
-                      "You can try to flee again or attack the beastlie with your %s."
+                      "You can try to \033[1;34;1m'flee'\033[1;37;1m again or \033[1;31;1m'attack'\033[1;37;1m\n"
+                      "the beastlie with your %s."
                       % (self.name, self.enemy.name, self.curweap))
                 self.enemy_attacks()
 
@@ -236,7 +240,8 @@ class Player(Character):
             self.tired()
         else:
             if self.do_damage(self.enemy):
-                print("%s readies themselves and with the right timing %s lands a killing blow on the %s!"
+                print("%s readies themselves and with the right timing %s lands a \033[1;31;1mkilling\033[1;37;1m\n"
+                      "blow on the %s!"
                       % (self.name, self.name, self.enemy.name))
                 self.enemy = None
                 self.state = 'normal'
@@ -248,19 +253,20 @@ class Player(Character):
                     self.base_evade_max = self.base_evade_max + 3
                     self.base_attack = self.base_attack + 1
                     print("Through slaying enemies as they get in the way of %s's exploring %s has\n"
-                          "gained more experience and leveled up! %s gained three additional health points,\n"
-                          "three additional evade points, and one attack point!"
+                          "gained more experience and \033[1;32;1mleveled up!\033[1;37;1m %s gained three\n"
+                          "additional health points, three additional evade points, and one attack point!"
                           % (self.name, self.name, self.name,))
-                    print(self.status())
                 if random.randint(0, self.gold) < 10:
                     self.gold = self.gold + 5
                     print("%s found five gold pieces! Cha-ching!" % self.name)
-                if random.randint(0, self.pots) < 5:
-                    self.pots = self.pots + 1
-                    print("%s found one health potion!" % self.name)
-                if random.randint(0, 40) < 20:
-                    print("%s found a %s!" % (self.name, random.choice(weapons)))
-                    self.weap = random.choice(weapons)
+                    if random.randint(0, self.pots) < 5:
+                        self.pots = self.pots + 1
+                        print("%s found one health potion!" % self.name)
+                        if random.randint(0, 40) > 40:
+                            print("%s found a %s!" % (self.name, random.choice(weapons)))
+                            self.weap = random.choice(weapons)
+                print(self.levelup())
+
             else:
                 self.enemy_attacks()
 
@@ -272,6 +278,13 @@ class Player(Character):
                   "Rest well %s, maybe you will be reincarnated as a capable adventure."
                   % (self.name, self.enemy.name, self.name, self.name, self.name))
             tprint("You Died....")
+            if self.hp == 0:
+                answer = input("Would you like to reincarnate? y/n ")
+                if answer == 'y' or answer == 'yes' or answer == 'Y' or answer == 'Yes':
+                    main()
+                    pass
+                elif answer == 'n' or answer == 'no' or answer == 'N' or answer == 'No':
+                    sys.exit()
 
     def use(self):
         if self.state != 'normal':
@@ -315,6 +328,23 @@ class Player(Character):
                 if answer == '1':
                     print(self.weap)
 
+    def levelup(self):
+        Character.__init__(self)
+        self.state = self.state
+        self.hp = self.hp
+        self.hp_max = self.hp_max
+        self.lvl = self.lvl
+        self.base_attack = self.base_attack
+        self.base_def = self.base_def
+        self.base_def_max = self.base_def_max
+        self.base_evade = self.base_evade
+        self.base_evade_max = self.base_evade_max
+        self.gold = self.gold
+        self.gold_max = self.gold_max
+        self.pots = self.pots
+        self.weap = self.weap
+        self.curweap = self.curweap
+
 
 Commands = {
     'save': Player.save,
@@ -328,6 +358,7 @@ Commands = {
     'use': Player.use,
     'inv': Player.inventory,
 }
+
 p = Player()
 p.name = input("Hello adventurer, what do they call you? ")
 print("%s well met! Choose your starting weapon." % p.name)
