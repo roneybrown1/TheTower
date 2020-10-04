@@ -180,7 +180,7 @@ class Player(Character):
             print("%s moves cautiously through the twisting and turning tunnels of the cave,\n"
                   "with each step the cave seems to be alive and changing. %s continues forward."
                   % (self.name, self.name))
-            if random.randint(0, 100) > 95:
+            if random.randint(0, 100) > 60:
                 print("%s sees an opening in the cave wall, there is a faint glimmer in the distance\n"
                       % self.name)
                 explore = input("Explore the opening? y/n: ")
@@ -205,10 +205,12 @@ class Player(Character):
                                     print("25 gold pieces!")
                                     self.gold = self.gold + 25
                                 else:
-                                    print("The chest was empty, someone or something must have\n"
-                                          "gotten here first. %s continues exploring the cave" % self.name)
+                                    print("The chest was empty, someone or something must have gotten here first.\n"
+                                          " %s continues exploring the cave" % self.name)
                         elif open == 'n':
                             print("%s decides to not open the chest and continue exploring." % self.name)
+                    else:
+                        print("The opening led %s into more caves, %s continues forward." % (self.name, self.name))
 
         if random.randint(0, 1):
             self.enemy = Enemy(self)
@@ -444,10 +446,22 @@ def main():
         load_game()
         hero = Player()
         hero.name = Character.name
+        hero.lvl = Character.lvl
         hero.gold = Character.gold
         hero.hp = Character.hp
-        print ('Welcome back ' + hero.name + '!')
-        print ('debug:' + str(hero.gold) + str(hero.hp))
+        hero.hp_max = Character.hp_max
+        hero.base_attack = Character.base_attack
+        hero.base_def = Character.base_def
+        hero.base_def_max = Character.base_def_max
+        hero.base_evade = Character.base_evade
+        hero.base_evade_max = Character.base_evade_max
+        hero.curweap = Character.weap
+        hero.pots = Character.pots
+        print('Welcome back ' + hero.name + '! ' + 'Time to continue your adventure!')
+        print("Enter your next command(if you need a refresher, type 'help')")
+        print('debug:' + str(hero.lvl) + str(hero.gold) + str(hero.hp) + str(hero.hp_max) + str(hero.base_attack)
+              + str(hero.base_def) + str(hero.base_def_max) + str(hero.base_evade) + str(hero.base_evade_max)
+              + str(hero.weap) + str(hero.pots))
 
 
     elif options == "3":
