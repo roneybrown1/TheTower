@@ -7,7 +7,7 @@ from random import randint
 
 
 # Variables
-save_state = False
+save_state = True
 weapons = {"Rapier": 40, "Sabre": 50, "Cutlass": 60, "Scimitar": 70, "Long Sword": 90, "Bastard Sword": 120,
            "Great Sword": 150}
 
@@ -33,7 +33,7 @@ def main():
                 print ('DEBUG: Loading ' + load_path)
                 with open(load_path, 'r') as f:
                     j = json.load(f)
-                    p.name = str(j['name'])
+                    name = str(j['name'])
             else:
                 print('Debug: Invalid save name!')
                 print('Invalid save name!')
