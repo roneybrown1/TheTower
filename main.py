@@ -130,14 +130,16 @@ class Player(Character):
             answer = input("Do you want to save the game? y/n ")
             save_state = True
             if answer == 'y' or answer == 'yes' or answer == 'Y' or answer == 'Yes':
-                print("Game has been saved.")
+                print("Preparing to save game")
                 save_name = input("savename: ")
-                path = 'path_to_dir{0}.json'.format(save_name)
+                path = ('saves/' + save_name + '.json')
+
                 data = {
                     'name': save_name
                 }
                 with open(path, 'w+') as f:
                     json.dump(data, f)
+                print ('DEBUG: Saved ' + (save_name) + ' in '  + (path))
             elif answer == 'n' or answer == 'no' or answer == 'N' or answer == 'No':
                 return ()
 
