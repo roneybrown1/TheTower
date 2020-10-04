@@ -5,10 +5,13 @@ import json
 import random
 from random import randint
 
+# Variables
 save_state = False
+weapons = {"Rapier": 40, "Sabre": 50, "Cutlass": 60, "Scimitar": 70, "Long Sword": 90, "Bastard Sword": 120,
+           "Great Sword": 150}
+
 
 def main():
-
     tprint("The Tower ")
     print('--------------------------------------------------------')
     print('---------- A Text-Based RPG by Ron and Ben. ------------')
@@ -37,9 +40,6 @@ def main():
 
 if __name__ == '__main__':
     main()
-
-weapons = {"Rapier": 40, "Sabre": 50, "Cutlass": 60, "Scimitar": 70, "Long Sword": 90, "Bastard Sword": 120,
-           "Great Sword": 150}
 
 
 class Item(object):
