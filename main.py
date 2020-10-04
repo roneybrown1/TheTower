@@ -384,7 +384,7 @@ def main():
 if __name__ == '__main__':
     main()
 
-p = Player()
+p = Player() # P ISSUE HERE PERHAPS?
 p.name = input("Hello adventurer, what do they call you? ")
 print("%s well met! Choose your starting weapon." % p.name)
 print("Choose between the 1.) Sword, 2.) Dagger, or 3.) Bow")
