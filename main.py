@@ -5,7 +5,7 @@ import json
 import random
 from random import randint
 
-save_state = False
+save_state = True
 
 def main():
 
@@ -22,7 +22,7 @@ def main():
         pass
     elif options == "2":
         if save_state is True:
-            input("Please enter save file name: ")
+            load_name = input("Please enter save file name: ")
             load_path = ('saves/' + load_name + '.json')
             print ('DEBUG: Loading ' + (load_path))
             with open(load_path, 'r') as f:
