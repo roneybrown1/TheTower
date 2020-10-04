@@ -135,7 +135,7 @@ class Player(Character):
               "Def: %d/%d\n Evade: %d/%d\n Weapon: %s\n Gold: %d/%d\n Potions: %s"
               % (self.name, self.lvl, self.hp, self.hp_max, self.base_attack,
                  self.base_def, self.base_def_max, self.base_evade, self.base_evade_max,
-                 self.curweap, int(self.gold), self.gold_max, self.pots))
+                 self.curweap, self.gold, self.gold_max, self.pots))
 
     def tired(self):
         print("%s can feel themselves getting weaker, one hp and evade point lost.\n"
@@ -361,18 +361,18 @@ def load_game():
         with open(load_path, 'r') as f:
             j = json.load(f)
             Character.name = str(j['name'])
-            Character.lvl = str(j['lvl'])
-            Character.hp = str(j['hp'])
-            Character.hp_max = str(j['hp_max'])
-            Character.base_attack = str(j['base_atk'])
-            Character.base_def = str(j['base_def'])
-            Character.base_def_max = str(j['base_def_max'])
-            Character.base_evade = str(j['base_evade'])
-            Character.base_evade_max = str(j['base_evade_max'])
+            Character.lvl = int(j['lvl'])
+            Character.hp = int(j['hp'])
+            Character.hp_max = int(j['hp_max'])
+            Character.base_attack = int(j['base_atk'])
+            Character.base_def = int(j['base_def'])
+            Character.base_def_max = int(j['base_def_max'])
+            Character.base_evade = int(j['base_evade'])
+            Character.base_evade_max = int(j['base_evade_max'])
             Character.weap = str(j['curweap'])
-            Character.gold = str(j['gold'])
-            Character.gold_max = str(j['gold_max'])
-            Character.pots = str(j['pots'])
+            Character.gold = int(j['gold'])
+            Character.gold_max = int(j['gold_max'])
+            Character.pots = int(j['pots'])
 
     else:
         print('Invalid save name!')
@@ -445,9 +445,9 @@ def main():
         hero = Player()
         hero.name = Character.name
         hero.gold = Character.gold
-        #hero.hp = int(Character.hp)
+        hero.hp = Character.hp
         print ('Welcome back ' + hero.name + '!')
-        print ('debug:' + Character.gold + Character.hp)
+        print ('debug:' + str(hero.gold) + str(hero.hp))
 
 
     elif options == "3":
