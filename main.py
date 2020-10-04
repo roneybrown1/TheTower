@@ -29,9 +29,9 @@ def main():
                 print ('DEBUG: Loading ' + (load_path))
                 with open(load_path, 'r') as f:
                     j = json.load(f)
-                    name = str(j['name'])
+                    character.name = str(j['name'])
             else:
-                print ('Debug: Invalid save name!')
+                print ('Invalid save name!')
         else:
             if save_state is False:
                 print("There are no saved games.")
