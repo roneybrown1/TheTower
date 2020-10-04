@@ -22,9 +22,9 @@ def main():
         pass
     elif options == "2":
         if save_state is True:
-            load_name = Player.save
-            path_two = 'path_to_dir{0}.json'.format(load_name)
-            with open(path_two, 'r') as f:
+            input("Please enter save file name: ")
+            load_path = ('saves/' + load_name + '.json')
+            with open(load_path, 'r') as f:
                 j = json.load(f)
                 name = str(j['name'])
         else:
