@@ -12,41 +12,7 @@ weapons = {"Rapier": 40, "Sabre": 50, "Cutlass": 60, "Scimitar": 70, "Long Sword
            "Great Sword": 150}
 
 
-def main():
-    tprint("The Tower ")
-    print('--------------------------------------------------------')
-    print('---------- A Text-Based RPG by Ron and Ben. ------------')
-    print('--------------------------------------------------------')
-    print("1.) Start")
-    print("2.) Continue")
-    print("3.) Exit")
-    options = input(">> ")
 
-    if options == "1":
-        pass
-    elif options == "2":
-        if save_state is True:
-            load_name = input("Please enter save file name: ")
-            load_path = ('saves/' + load_name + '.json')
-            validcheck = os.path.isfile(load_path)
-            if validcheck:
-                print ('DEBUG: Loading ' + load_path)
-                with open(load_path, 'r') as f:
-                    j = json.load(f)
-                    name = str(j['name'])
-            else:
-                print('Debug: Invalid save name!')
-                print('Invalid save name!')
-        else:
-            if save_state is False:
-                print("There are no saved games.")
-                main()
-    elif options == "3":
-        sys.exit()
-
-
-if __name__ == '__main__':
-    main()
 
 
 class Item(object):
@@ -89,6 +55,19 @@ class Character:
             print("\033[1;31;1m" + str(damage) + "\033[1;31;1m", "\033[1;37;1mdamage was dealt!")
             return enemy.hp <= 0
 
+def load_game():
+    load_name = input("Please enter save file name: ")
+    load_path = ('saves/' + load_name + '.json')
+    validcheck = os.path.isfile(load_path)
+    if validcheck:
+        print('DEBUG: Loading ' + load_path)
+        with open(load_path, 'r') as f:
+            j = json.load(f)
+            Character.name = str(j['name'])
+    else:
+        print('Debug: Invalid save name!')
+        print('Invalid save name!')
+        main()
 
 class Enemy(Character):
     def __init__(self, player):
@@ -382,6 +361,29 @@ Commands = {
     'inv': Player.inventory,
 }
 
+def main():
+    tprint("The Tower ")
+    print('--------------------------------------------------------')
+    print('---------- A Text-Based RPG by Ron and Ben. ------------')
+    print('--------------------------------------------------------')
+    print("1.) Start")
+    print("2.) Continue")
+    print("3.) Exit")
+    options = input(">> ")
+
+    if options == "1":
+        pass
+    elif options == "2":
+            load_game()
+            print ('Welcome back '+ Character.name + '!')
+
+    elif options == "3":
+        sys.exit()
+
+
+if __name__ == '__main__':
+    main()
+
 p = Player()
 p.name = input("Hello adventurer, what do they call you? ")
 print("%s well met! Choose your starting weapon." % p.name)
@@ -432,3 +434,5 @@ while p.hp > 0:
                 break
         if not commandFound:
             print("%s is confused about the choice made..." % p.name)
+
+
