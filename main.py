@@ -135,7 +135,7 @@ class Player(Character):
               "Def: %d/%d\n Evade: %d/%d\n Weapon: %s\n Gold: %d/%d\n Potions: %s"
               % (self.name, self.lvl, self.hp, self.hp_max, self.base_attack,
                  self.base_def, self.base_def_max, self.base_evade, self.base_evade_max,
-                 self.curweap, self.gold, self.gold_max, self.pots))
+                 self.curweap, int(self.gold), self.gold_max, self.pots))
 
     def tired(self):
         print("%s can feel themselves getting weaker, one hp and evade point lost.\n"
@@ -444,7 +444,10 @@ def main():
         load_game()
         hero = Player()
         hero.name = Character.name
+        hero.gold = Character.gold
+        #hero.hp = int(Character.hp)
         print ('Welcome back ' + hero.name + '!')
+        print ('debug:' + Character.gold + Character.hp)
 
 
     elif options == "3":
