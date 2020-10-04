@@ -11,9 +11,6 @@ save_state = False
 weapons = {"Rapier": 40, "Sabre": 50, "Cutlass": 60, "Scimitar": 70, "Long Sword": 90, "Bastard Sword": 120,
            "Great Sword": 150}
 
-save_state = True
-
-
 
 def main():
     tprint("The Tower ")
@@ -33,12 +30,12 @@ def main():
             load_path = ('saves/' + load_name + '.json')
             validcheck = os.path.isfile(load_path)
             if validcheck:
-                print ('DEBUG: Loading ' + (load_path))
+                print ('DEBUG: Loading ' + load_path)
                 with open(load_path, 'r') as f:
                     j = json.load(f)
                     name = str(j['name'])
             else:
-                print ('Debug: Invalid save name!')
+                print('Debug: Invalid save name!')
         else:
             if save_state is False:
                 print("There are no saved games.")
@@ -148,7 +145,7 @@ class Player(Character):
                 }
                 with open(path, 'w+') as f:
                     json.dump(data, f)
-                print ('DEBUG: Saved ' + (save_name) + ' in '  + (path))
+                print ('DEBUG: Saved ' + save_name + ' in ' + path)
             elif answer == 'n' or answer == 'no' or answer == 'N' or answer == 'No':
                 return ()
 
