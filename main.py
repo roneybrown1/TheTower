@@ -200,6 +200,33 @@ class Player(Character):
             print("%s moves cautiously through the twisting and turning tunnels of the cave,\n"
                   "with each step the cave seems to be alive and changing. %s continues forward."
                   % (self.name, self.name))
+            if random.randint(0, 100) > 75:
+                print("%s sees an opening in the cave wall, there is a faint glimmer in the distance\n"
+                      % self.name)
+                explore = input("Explore the opening? y/n: ")
+                if explore == 'y':
+                    if random.randint(0, 30) > 15:
+                        print("%s moves through the opening and towards the glimmer, moving closer %s and see\n"
+                              "a treasure chest covered in strange symbols." % (self.name, self.name))
+                        open = input("Do you want to open the chest? y/n: ")
+                        if open == 'y':
+                            print("%s slowly opens the chest, as they do they reveal " % self.name)
+                            if random.randint(0, 50) > 25:
+                                if random.randint(0, 20) > 10:
+                                    print("a shimmering %s" % random.choices(weapons))
+                                    random.choice(weapons)
+                                    equip = input("Do you want to equip the item? y/n: ")
+                                    if equip == 'y':
+                                        self.curweap = self.weap
+                                    elif equip == 'n':
+                                        print("The item has been added to your inventory.")
+                                        self.inventory = self.weap
+                                elif random.randint(0, 20) < 10:
+                                    print("25 gold pieces!")
+                                    self.gold = self.gold + 25
+                        elif open == 'n':
+                            print("%s decides to not open the chest and continue exploring.")
+
         if random.randint(0, 1):
             self.enemy = Enemy(self)
             print("As %s moves through the cave they notice a scuttling sound coming from behind them.\n"
@@ -265,7 +292,7 @@ class Player(Character):
                         if random.randint(0, 40) > 40:
                             print("%s found a %s!" % (self.name, random.choice(weapons)))
                             self.weap = random.choice(weapons)
-                print(self.levelup())
+                print(self.status())
 
             else:
                 self.enemy_attacks()
@@ -327,23 +354,6 @@ class Player(Character):
                 answer = input(" ")
                 if answer == '1':
                     print(self.weap)
-
-    def levelup(self):
-        Character.__init__(self)
-        self.state = self.state
-        self.hp = self.hp
-        self.hp_max = self.hp_max
-        self.lvl = self.lvl
-        self.base_attack = self.base_attack
-        self.base_def = self.base_def
-        self.base_def_max = self.base_def_max
-        self.base_evade = self.base_evade
-        self.base_evade_max = self.base_evade_max
-        self.gold = self.gold
-        self.gold_max = self.gold_max
-        self.pots = self.pots
-        self.weap = self.weap
-        self.curweap = self.curweap
 
 
 Commands = {
