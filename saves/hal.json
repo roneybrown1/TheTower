@@ -1,1 +1,1 @@
-{"name": "hal", "lvl": 1, "hp": 50}
+{"savename": "hal", "name": "Hal", "lvl": 1, "hp": 48, "hp_max": 50, "base_atk": 13, "base_def": 15, "base_def_max": 15, "base_evade": 8, "base_evade_max": 8, "curweap": "Sword", "gold": 5, "gold_max": 1000, "pots": 1}

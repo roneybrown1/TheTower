@@ -55,19 +55,7 @@ class Character:
             print("\033[1;31;1m" + str(damage) + "\033[1;31;1m", "\033[1;37;1mdamage was dealt!")
             return enemy.hp <= 0
 
-def load_game():
-    load_name = input("Please enter save file name: ")
-    load_path = ('saves/' + load_name + '.json')
-    validcheck = os.path.isfile(load_path)
-    if validcheck:
-        print('DEBUG: Loading ' + load_path)
-        with open(load_path, 'r') as f:
-            j = json.load(f)
-            Character.name = str(j['name'])
-    else:
-        print('Debug: Invalid save name!')
-        print('Invalid save name!')
-        main()
+
 
 class Enemy(Character):
     def __init__(self, player):
@@ -128,6 +116,7 @@ class Player(Character):
                 with open(path, 'w+') as f:
                     json.dump(data, f)
                 print ('DEBUG: Saved ' + save_name + ' in ' + path)
+                print ('The game has been saved, please type your next command to continue!')
             elif answer == 'n' or answer == 'no' or answer == 'N' or answer == 'No':
                 return ()
 
@@ -363,6 +352,33 @@ Commands = {
     'inv': Player.inventory,
 }
 
+def load_game():
+    load_name = input("Please enter save file name: ")
+    load_path = ('saves/' + load_name + '.json')
+    validcheck = os.path.isfile(load_path)
+    if validcheck:
+        print('DEBUG: Loading ' + load_path)
+        with open(load_path, 'r') as f:
+            j = json.load(f)
+            Character.name = str(j['name'])
+            Character.lvl = str(j['lvl'])
+            Character.hp = str(j['hp'])
+            Character.hp_max = str(j['hp_max'])
+            Character.base_attack = str(j['base_atk'])
+            Character.base_def = str(j['base_def'])
+            Character.base_def_max = str(j['base_def_max'])
+            Character.base_evade = str(j['base_evade'])
+            Character.base_evade_max = str(j['base_evade_max'])
+            Character.weap = str(j['curweap'])
+            Character.gold = str(j['gold'])
+            Character.gold_max = str(j['gold_max'])
+            Character.pots = str(j['pots'])
+
+    else:
+        print('Debug: Invalid save name!')
+        print('Invalid save name!')
+        main()
+
 
 def main():
     tprint("The Tower ")
@@ -379,6 +395,7 @@ def main():
     elif options == "2":
         load_game()
         print ('Welcome back ' + Character.name + '!')
+
 
     elif options == "3":
         sys.exit()
