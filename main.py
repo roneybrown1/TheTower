@@ -458,9 +458,9 @@ def main():
         hero.pots = Character.pots
         print('Welcome back ' + hero.name + '! ' + 'Time to continue your adventure!')
         print("Enter your next command(if you need a refresher, type 'help')")
-        print('debug:' + str(hero.lvl) + str(hero.gold) + str(hero.hp) + str(hero.hp_max) + str(hero.base_attack)
-              + str(hero.base_def) + str(hero.base_def_max) + str(hero.base_evade) + str(hero.base_evade_max)
-              + str(hero.weap) + str(hero.pots))
+        #print('debug:' + str(hero.lvl) + str(hero.gold) + str(hero.hp) + str(hero.hp_max) + str(hero.base_attack)
+              #+ str(hero.base_def) + str(hero.base_def_max) + str(hero.base_evade) + str(hero.base_evade_max)
+              #+ str(hero.weap) + str(hero.pots))
 
     elif options == "3":
         sys.exit()
