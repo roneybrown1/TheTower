@@ -47,11 +47,10 @@ class Character:
             print("%s was able to evade %s's \033[1;31;1mattack\033[1;37;1m." % (enemy.name, self.name))
             print("\033[1;31;1m""0 damage""\033[1;37;1m taken.")
         else:
-            print("%s landed a \033[1;31;1mdamaging\033[1;37;1m blow on the %s,"
+            print("%s landed a \033[1;31;1mdamaging\033[1;37;1m blow on %s."
                   % (self.name, enemy.name))
             print("\033[1;31;1m" + str(damage) + "\033[1;31;1m", "\033[1;37;1mdamage was dealt!")
             return enemy.hp <= 0
-
 
 
 class Enemy(Character):
@@ -87,7 +86,7 @@ class Player(Character):
         self.base_evade = 10
         self.base_evade_max = 10
         self.gold = 0
-        self.gold_max = 1000
+        self.gold_max = 1500
         self.pots = 0
         self.weap = {}
         self.curweap = "none"
@@ -113,7 +112,7 @@ class Player(Character):
                 }
                 with open(path, 'w+') as f:
                     json.dump(data, f)
-                print ('DEBUG: Saved ' + save_name + ' in ' + path)
+                print ('System: Saved ' + save_name + ' in ' + path)
                 print ('The game has been saved, please type your next command to continue!')
             elif answer == 'n' or answer == 'no' or answer == 'N' or answer == 'No':
                 return ()
@@ -178,16 +177,16 @@ class Player(Character):
             print("%s moves cautiously through the twisting and turning tunnels of the cave,\n"
                   "with each step the cave seems to be alive and changing. %s continues forward."
                   % (self.name, self.name))
-            if random.randint(0, 100) > 60:
+            if random.randint(0, 100) > 75:
                 print("%s sees an opening in the cave wall, there is a faint glimmer in the distance\n"
                       % self.name)
-                explore = input("Explore the opening? y/n: ")
-                if explore == 'y':
-                    if random.randint(0, 30) > 15:
+                answer = input("Explore the opening? y/n: ")
+                if answer == 'y' or answer == 'yes' or answer == 'Y' or answer == 'Yes':
+                    if random.randint(0, 50) > 30:
                         print("%s moves through the opening and towards the glimmer, moving closer %s and see\n"
                               "a treasure chest covered in strange symbols." % (self.name, self.name))
-                        open = input("Do you want to open the chest? y/n: ")
-                        if open == 'y':
+                        answer = input("Do you want to open the chest? y/n: ")
+                        if answer == 'y' or answer == 'yes' or answer == 'Y' or answer == 'Yes':
                             print("%s slowly opens the chest, as they do they reveal " % self.name)
                             if random.randint(0, 50) > 25:
                                 if random.randint(0, 20) > 10:
@@ -205,12 +204,48 @@ class Player(Character):
                                 else:
                                     print("The chest was empty, someone or something must have gotten here first.\n"
                                           " %s continues exploring the cave" % self.name)
-                        elif open == 'n':
+                        elif answer == 'n' or answer == 'no' or answer == 'N' or answer == 'No':
                             print("%s decides to not open the chest and continue exploring." % self.name)
                     else:
                         print("The opening led %s into more caves, %s continues forward." % (self.name, self.name))
+                if random.randint(0, 250) > 200:
+                    print("As %s moved through the save they notice a skeleton tucked away in a dark crevice."
+                          % self.name)
+                    answer = input("Do you want to check the skeleton? y/n")
+                    if answer == 'y' or answer == 'yes' or answer == 'Y' or answer == 'Yes':
+                        print("%s moves closer to the skeleton, as they step closer to the decrepit remains they\n"
+                              "notice a satchel." % self.name)
+                        if random.randint(0, 50) > 25:
+                            print("Reaching down into the satchel %s finds....\n" % self.name)
+                            if random.randint(0, 3) == 1:
+                                print("\033[1;32;1m100 gold pieces\033[1;37;1m! %s quickly takes the gold and\n"
+                                      "places it in their gold bag. %s continues their adventure."
+                                      % (self.name, self.name))
+                                if self.gold != self.gold_max:
+                                    self.gold = self.gold = 100
+                                else:
+                                    print("Unfortunately %s gold bag is full and cannot hold anymore.\n"
+                                          "%s leaves the gold for another adventurer." % (self.name, self.name))
+                            if random.randint(0, 2) == 2:
+                                print("nothing, it seems that someone or something has already cleared the\n"
+                                      "satchel of it's belonging. %s continues on their adventure." % self.name)
+                            if random.randint(0, 3) == 3:
+                                print("\033[1;32;1m3 health potions\033[1;37;1m! %s quickly takes the gold\n"
+                                      "and places it in their gold bag. %s continues their adventure."
+                                      % (self.name, self.name))
+                                self.pots = self.pots + 3
+                        else:
+                            self.enemy = Enemy(self)
+                            print("As %s reaches down to explore the contents of the satchel they\n"
+                                  "are \033[1;31;1mattacked\033[0;37;1m from behind by a(n) %s!"
+                                  % (self.name, self.enemy.name))
+                            self.state = 'fight'
+                            self.enemy_attacks()
+                    if answer == 'n' or answer == 'no' or answer == 'N' or answer == 'No':
+                        print("%s decides to let the poor soul rest in peace and continued their adventure."
+                              % self.name)
 
-        if random.randint(0, 1):
+        if random.randint(0, 25):
             self.enemy = Enemy(self)
             print("As %s moves through the cave they notice a scuttling sound coming from behind them.\n"
                   "Oh no! %s has been \033[1;31;1mattacked\033[0;37;1m by a(n) %s!"
@@ -340,16 +375,16 @@ class Player(Character):
 
 
 Commands = {
-    'save': Player.save,
-    'quit': Player.quit,
-    'help': Player.help,
-    'status': Player.status,
-    'rest': Player.rest,
-    'explore': Player.explore,
-    'flee': Player.flee,
-    'attack': Player.attack,
-    'use': Player.use,
-    'inv': Player.inventory,
+    'save' or 'Save': Player.save,
+    'quit' or 'Help': Player.quit,
+    'help' or 'Help': Player.help,
+    'status' or 'Status': Player.status,
+    'rest' or 'Rest': Player.rest,
+    'explore' or 'Explore': Player.explore,
+    'flee' or 'Flee': Player.flee,
+    'attack' or 'Attack': Player.attack,
+    'use' or 'Use': Player.use,
+    'inv' or 'Inv': Player.inventory,
 }
 
 
@@ -393,9 +428,10 @@ def main():
     if options == "1":
         hero = Player()
         hero.name = input("Hello adventurer, what do they call you? ")
-        print("%s well met! Choose your starting weapon." % hero.name)
-        print("Choose between the 1.) Sword, 2.) Dagger, or 3.) Bow")
-        weapchoice = input("Choose your weapon: ")
+        print("%s well met! Please choose your starting weapon." % hero.name)
+        print("Your choices are the 1.) Sword, the 2.) Dagger, or the 3.) Bow")
+        print("(Each weapon has different stats.")
+        weapchoice = input("Please choose your weapon: ")
         if hero.curweap == "none":
             if weapchoice == "1":
                 hero.curweap = "Sword"
@@ -425,7 +461,7 @@ def main():
             pass
 
         else:
-            print("No valid choice was made, you will go in with your bare hands.")
+            print("No valid choice was made, you will go into your adventure with your bare hands.\n")
             hero.curweap = "Fist"
             hero.base_attack = 2
             hero.base_evade_max = 20
@@ -456,11 +492,11 @@ def main():
         hero.base_evade_max = Character.base_evade_max
         hero.curweap = Character.weap
         hero.pots = Character.pots
-        print('Welcome back ' + hero.name + '! ' + 'Time to continue your adventure!')
+        print('Welcome back ' + hero.name + ', ' + 'time to continue your adventure!')
         print("Enter your next command(if you need a refresher, type 'help')")
         # print('debug:' + str(hero.lvl) + str(hero.gold) + str(hero.hp) + str(hero.hp_max) + str(hero.base_attack)
-              # + str(hero.base_def) + str(hero.base_def_max) + str(hero.base_evade) + str(hero.base_evade_max)
-              # + str(hero.weap) + str(hero.pots))
+        # + str(hero.base_def) + str(hero.base_def_max) + str(hero.base_evade) + str(hero.base_evade_max)
+        # + str(hero.weap) + str(hero.pots))
 
     elif options == "3":
         sys.exit()
