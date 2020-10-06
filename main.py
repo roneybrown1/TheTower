@@ -56,14 +56,15 @@ class Character:
 class Enemy(Character):
     def __init__(self, player):
         Character.__init__(self)
-        first = ("giant", "fire-eyed", "half-dead", "rotting", "bloated", "hulking", "grizzly", "angered", "injured",
-                 "erratic", "frenzied", "yellow", "red", "black", "wasting", "gross", "ghastly", "demonic", "doomed",
-                 "savage", "stone", "elemental", "abyssal", "plague", "behemoth", "gelatinous", "zombie", "oozing",
-                 "lesser", "fabled", "fiendish", "possessed")
-        second = ("goblin", "warlock", "witch", "minotaur", "kobald", "skeleton", "ogre", "rat", "spirit", "troll",
-                  "vampire", "banshee", "warrior", "dog", "spider", "snake", "harpy", "specter", "dwarf", "hobgoblin",
-                  "bat", "familiar", "golem", "thief", "orc", "halfling", "drow", "pixie", "satyr", "imp", "hag",
-                  "lich", "crawler", "wasp", "mage")
+        first = ("Giant", "Fire-Eyed", "Half-Dead", "Rotting", "Bloated", "Hulking", "Grizzly", "Angered", "Injured",
+                 "Erratic", "Frenzied", "Yellow", "Red", "Black", "Wasting", "Gross", "Ghastly", "Demonic", "Doomed",
+                 "Savage", "Stone", "Elemental", "Abyssal", "Plague", "Behemoth", "Gelatinous", "Zombie", "Oozing",
+                 "Lesser", "Fabled", "Fiendish", "Possessed", "Enraged", "Corrupted", "Forsaken", "Putrid", "Rabid",
+                 )
+        second = ("Goblin", "Warlock", "Witch", "Minotaur", "Kobald", "Skeleton", "Ogre", "Rat", "Spirit", "Troll",
+                  "Vampire", "Banshee", "Warrior", "Dog", "Spider", "Snake", "Harpy", "Specter", "Dwarf", "Hobgoblin",
+                  "Bat", "Familiar", "Golem", "Thief", "Orc", "Halfling", "Drow", "pixie", "Satyr", "Imp", "Hag",
+                  "Lich", "Crawler", "Wasp", "Mage", "Slime")
         titleOne = random.choice(first)
         titleTwo = random.choice(second)
         self.name = (titleOne + " " + titleTwo)
@@ -71,6 +72,30 @@ class Enemy(Character):
         self.base_attack = 15
         self.base_def = 10
         self.base_evade = 10
+
+
+class Boss(Character):
+    def __init__(self, player):
+        Character.__init__(self)
+        name = ("Ur", "Grog", "Shagu", "Orior", "Tork", "Isha", "Ulma", "Rago", "Hork", "Palu", "Dar", "Kilu", "Fuz",
+                "Quer", "Masq", "P'Luah", "Y'Esha", "O'tru", "Fert", "Unah", "Zuul", "Jatur", "Yent", "Oki", "Nort",
+                )
+        first = ("Giant", "Fire-Eyed", "Half-Dead", "Rotting", "Bloated", "Hulking", "Grizzly", "Angered", "Injured",
+                 "Erratic", "Frenzied", "Yellow", "Red", "Black", "Wasting", "Gross", "Ghastly", "Demonic", "Doomed",
+                 "Savage", "Stone", "Elemental", "Abyssal", "Plague", "Behemoth", "Gelatinous", "Zombie", "Oozing",
+                 "Lesser", "Fabled", "Fiendish", "Possessed")
+        second = ("Goblin", "Warlock", "Witch", "Minotaur", "Kobald", "Skeleton", "Ogre", "Rat", "Spirit", "Troll",
+                  "Vampire", "Banshee", "Warrior", "Dog", "Spider", "Snake", "Harpy", "Specter", "Dwarf", "Hobgoblin",
+                  "Bat", "Familiar", "Golem", "Thief", "Orc", "Halfling", "Drow", "pixie", "Satyr", "Imp", "Hag",
+                  "Lich", "Crawler", "Wasp", "Mage", "Slime")
+        name = random.choice(name)
+        titleOne = random.choice(first)
+        titleTwo = random.choice(second)
+        self.name = (name + " " + titleOne + " " + titleTwo)
+        self.hp = random.randint(1, 300)
+        self.base_attack = 60
+        self.base_def = 70
+        self.base_evade = 40
 
 
 class Player(Character):
@@ -375,16 +400,16 @@ class Player(Character):
 
 
 Commands = {
-    'save' or 'Save': Player.save,
-    'quit' or 'Help': Player.quit,
-    'help' or 'Help': Player.help,
-    'status' or 'Status': Player.status,
-    'rest' or 'Rest': Player.rest,
-    'explore' or 'Explore': Player.explore,
-    'flee' or 'Flee': Player.flee,
-    'attack' or 'Attack': Player.attack,
-    'use' or 'Use': Player.use,
-    'inv' or 'Inv': Player.inventory,
+    'save': Player.save,
+    'quit': Player.quit,
+    'help': Player.help,
+    'status': Player.status,
+    'rest': Player.rest,
+    'explore': Player.explore,
+    'flee': Player.flee,
+    'attack': Player.attack,
+    'use': Player.use,
+    'inv': Player.inventory,
 }
 
 
