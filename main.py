@@ -202,24 +202,25 @@ class Player(Character):
             print("%s moves cautiously through the twisting and turning tunnels of the cave,\n"
                   "with each step the cave seems to be alive and changing. %s continues forward."
                   % (self.name, self.name))
-            if random.randint(0, 100) > 75:
+            if random.randint(0, 5) > 1:
                 print("%s sees an opening in the cave wall, there is a faint glimmer in the distance\n"
                       % self.name)
                 answer = input("Explore the opening? y/n: ")
                 if answer == 'y' or answer == 'yes' or answer == 'Y' or answer == 'Yes':
-                    if random.randint(0, 50) > 30:
+                    if random.randint(0, 5) > 1:
                         print("%s moves through the opening and towards the glimmer, moving closer %s and see\n"
                               "a treasure chest covered in strange symbols." % (self.name, self.name))
                         answer = input("Do you want to open the chest? y/n: ")
                         if answer == 'y' or answer == 'yes' or answer == 'Y' or answer == 'Yes':
                             print("%s slowly opens the chest, as they do they reveal " % self.name)
                             if random.randint(0, 50) > 25:
-                                if random.randint(0, 20) > 10:
-                                    print("a shimmering %s" % random.choices(self.weapons))
+                                if random.randint(0, 5) > 1:
+                                    foundweapon = random.choice(self.weapons)
+                                    print("a shimmering %s" % foundweapon)
                                     random.choice(self.weapons)
                                     equip = input("Do you want to equip the item? y/n: ")
                                     if equip == 'y':
-                                        self.curweap = random.choice(self.weapons)
+                                        self.curweap = foundweapon
                                     elif equip == 'n':
                                         print("The item has been added to your inventory.")
                                         self.inventory = self.weap
