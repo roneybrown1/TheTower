@@ -34,7 +34,7 @@ class Character:
         self.gold = 0
         self.gold_max = 1000
         self.pots = 0
-        self.weap = ["Sword", "Dagger", "Bow", "Fist"]
+        self.weap = ["Rusty Sword", "Rusty Dagger", " Wooden Bow", "Fist"]
         self.weapons = ['Rapier', 'Sabre', 'Cutlass', 'Scimitar', 'Long Sword', 'Bastard Sword', 'Great Sword']
         self.curweap = 'none'
         self.inventory = 'none'
@@ -83,7 +83,8 @@ class Boss(Character):
         first = ("Giant", "Fire-Eyed", "Half-Dead", "Rotting", "Bloated", "Hulking", "Grizzly", "Angered", "Injured",
                  "Erratic", "Frenzied", "Yellow", "Red", "Black", "Wasting", "Gross", "Ghastly", "Demonic", "Doomed",
                  "Savage", "Stone", "Elemental", "Abyssal", "Plague", "Behemoth", "Gelatinous", "Zombie", "Oozing",
-                 "Lesser", "Fabled", "Fiendish", "Possessed")
+                 "Lesser", "Fabled", "Fiendish", "Possessed", "Enraged", "Corrupted", "Forsaken", "Putrid", "Rabid",
+                 )
         second = ("Goblin", "Warlock", "Witch", "Minotaur", "Kobald", "Skeleton", "Ogre", "Rat", "Spirit", "Troll",
                   "Vampire", "Banshee", "Warrior", "Dog", "Spider", "Snake", "Harpy", "Specter", "Dwarf", "Hobgoblin",
                   "Bat", "Familiar", "Golem", "Thief", "Orc", "Halfling", "Drow", "pixie", "Satyr", "Imp", "Hag",
@@ -213,7 +214,7 @@ class Player(Character):
                         answer = input("Do you want to open the chest? y/n: ")
                         if answer == 'y' or answer == 'yes' or answer == 'Y' or answer == 'Yes':
                             print("%s slowly opens the chest, as they do they reveal " % self.name)
-                            if random.randint(0, 50) > 25:
+                            if random.randint(0, 5) > 1:
                                 if random.randint(0, 5) > 1:
                                     foundweapon = random.choice(self.weapons)
                                     print("a shimmering %s" % foundweapon)
@@ -455,22 +456,22 @@ def main():
         hero = Player()
         hero.name = input("Hello adventurer, what do they call you? ")
         print("%s well met! Please choose your starting weapon." % hero.name)
-        print("Your choices are the 1.) Sword, the 2.) Dagger, or the 3.) Bow")
+        print("Your choices are the 1.) Rusty Sword, the 2.) Rusty Dagger, or the 3.) Wooden Bow")
         print("(Each weapon has different stats.")
         weapchoice = input("Please choose your weapon: ")
         if hero.curweap == "none":
             if weapchoice == "1":
-                hero.curweap = "Sword"
+                hero.curweap = "Rusty Sword"
                 hero.base_attack = 13
                 hero.base_evade_max = 8
                 hero.base_evade = hero.base_evade_max
             if weapchoice == "2":
-                hero.curweap = "Dagger"
+                hero.curweap = "Rusty Dagger"
                 hero.base_attack = 9
                 hero.base_evade_max = 11
                 hero.base_evade = hero.base_evade_max
             if weapchoice == "3":
-                hero.curweap = "Bow"
+                hero.curweap = "Wooden Bow"
                 hero.base_attack = 5
                 hero.base_evade_max = 15
                 hero.base_evade = hero.base_evade_max
