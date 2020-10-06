@@ -134,7 +134,7 @@ class Player(Character):
                     'savename': save_name, 'name': self.name, 'lvl': self.lvl, 'hp': self.hp, 'hp_max': self.hp_max,
                     'base_atk': self.base_attack, 'base_def': self.base_def, 'base_def_max': self.base_def_max,
                     'base_evade': self.base_evade, 'base_evade_max': self.base_evade_max, 'curweap': self.curweap,
-                    'gold': self.gold, 'gold_max': self.gold_max, 'pots': self.pots, 'inventory':self.inventory
+                    'gold': self.gold, 'gold_max': self.gold_max, 'pots': self.pots
                 }
                 with open(path, 'w+') as f:
                     json.dump(data, f)
@@ -219,12 +219,20 @@ class Player(Character):
                                     foundweapon = random.choice(self.weapons)
                                     print("a shimmering %s" % foundweapon)
                                     random.choice(self.weapons)
-                                    equip = input("Do you want to equip the item? y/n: ")
-                                    if equip == 'y':
+                                    if foundweapon == self.curweap:
+                                        print("%s already has this weapon equipped, %s has been added to your\n"
+                                              "inventory." % (self.name, foundweapon))
+                                        self.inventory.append(foundweapon)
+                                    answer = input("Do you want to equip the item? y/n: ")
+                                    if answer == 'y' or answer == 'yes' or answer == 'Y' or answer == 'Yes':
+                                        print("% has unequipped the %s and equipped the %s"
+                                              %(self.name, self.curweap, foundweapon))
+                                        print("% has been placed in your inventory." % self.curweap)
+                                        self.inventory.append(self.curweap)
                                         self.curweap = foundweapon
-                                    elif equip == 'n':
+                                    elif answer == 'n' or answer == 'no' or answer == 'N' or answer == 'No':
                                         print("The item has been added to your inventory.")
-                                        self.inventory = self.weap
+                                        self.inventory.append(foundweapon)
                                 elif random.randint(0, 20) < 10:
                                     print("25 gold pieces!")
                                     self.gold = self.gold + 25
@@ -383,7 +391,7 @@ class Player(Character):
 
     def addInventory(self):
         self.inventory.append(Item)
-        print ('Added ' + Item +' to bag.')
+        print('Added ' + Item + ' to bag.')
 
     def inventory(self):
         if self.state != 'normal':
@@ -398,8 +406,7 @@ class Player(Character):
             if answer == '1':
                 print('peering into your bag you see the following:')
                 for x, y in enumerate(self.inventory):
-                    print (x, y)
-
+                    print(x, y)
 
 
 Commands = {
@@ -437,7 +444,6 @@ def load_game():
             Character.gold = int(j['gold'])
             Character.gold_max = int(j['gold_max'])
             Character.pots = int(j['pots'])
-            Character.inventory = (j['inventory'])
 
     else:
         print('Invalid save name!')
@@ -463,19 +469,16 @@ def main():
         weapchoice = input("Please choose your weapon: ")
         if hero.curweap == "none":
             if weapchoice == "1":
-                hero.inventory.append("Rusty Sword")
                 hero.curweap = "Rusty Sword"
                 hero.base_attack = 13
                 hero.base_evade_max = 8
                 hero.base_evade = hero.base_evade_max
             if weapchoice == "2":
-                hero.inventory.append("Rusty Dagger")
                 hero.curweap = "Rusty Dagger"
                 hero.base_attack = 9
                 hero.base_evade_max = 11
                 hero.base_evade = hero.base_evade_max
             if weapchoice == "3":
-                hero.inventory.append("Wooden Bow")
                 hero.curweap = "Wooden Bow"
                 hero.base_attack = 5
                 hero.base_evade_max = 15
@@ -524,7 +527,6 @@ def main():
         hero.base_evade_max = Character.base_evade_max
         hero.curweap = Character.weap
         hero.pots = Character.pots
-        hero.inventory = Character.inventory
         print('Welcome back ' + hero.name + ', ' + 'time to continue your adventure!')
         print("Enter your next command(if you need a refresher, type 'help')")
         # print('debug:' + str(hero.lvl) + str(hero.gold) + str(hero.hp) + str(hero.hp_max) + str(hero.base_attack)
@@ -550,7 +552,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
-
-
-
