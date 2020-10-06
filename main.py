@@ -383,6 +383,7 @@ class Player(Character):
 
     def addInventory(self):
         self.inventory.append(Item)
+        print ('Added ' + Item ' to bag.')
 
     def inventory(self):
         if self.state != 'normal':
