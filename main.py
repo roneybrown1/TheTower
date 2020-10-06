@@ -37,7 +37,7 @@ class Character:
         self.weap = ["Rusty Sword", "Rusty Dagger", " Wooden Bow", "Fist"]
         self.weapons = ['Rapier', 'Sabre', 'Cutlass', 'Scimitar', 'Long Sword', 'Bastard Sword', 'Great Sword']
         self.curweap = 'none'
-        self.inventory = 'none'
+        self.inventory = []
 
     def do_damage(self, enemy):
         damage = min(max(randint(0, self.base_attack) - randint(0, enemy.hp), 0),
@@ -116,7 +116,7 @@ class Player(Character):
         self.pots = 0
         self.weap = {}
         self.curweap = "none"
-        self.inventory = ["none"]
+        self.inventory = []
 
     def save(self):
         if self.state != 'normal':
@@ -134,7 +134,7 @@ class Player(Character):
                     'savename': save_name, 'name': self.name, 'lvl': self.lvl, 'hp': self.hp, 'hp_max': self.hp_max,
                     'base_atk': self.base_attack, 'base_def': self.base_def, 'base_def_max': self.base_def_max,
                     'base_evade': self.base_evade, 'base_evade_max': self.base_evade_max, 'curweap': self.curweap,
-                    'gold': self.gold, 'gold_max': self.gold_max, 'pots': self.pots
+                    'gold': self.gold, 'gold_max': self.gold_max, 'pots': self.pots, 'inventory':self.inventory
                 }
                 with open(path, 'w+') as f:
                     json.dump(data, f)
@@ -381,6 +381,9 @@ class Player(Character):
                 print("%s does not have any health potions to use." % self.name)
                 return ()
 
+    def addInventory(self):
+        self.inventory.append(Item)
+
     def inventory(self):
         if self.state != 'normal':
             print("Inventory can only be used outside of battle!")
@@ -392,13 +395,10 @@ class Player(Character):
             print("3.) Treasures")
             answer = input(" ")
             if answer == '1':
-                print(self.weap)
-                print("Do you want to equip an item?")
-                print("1.) Weapon")
-                print("2.) Armor")
-                answer = input(" ")
-                if answer == '1':
-                    print(self.weap)
+                print('peering into your bag you see the following:')
+                for x, y in enumerate(self.inventory):
+                    print (x, y)
+
 
 
 Commands = {
@@ -461,16 +461,19 @@ def main():
         weapchoice = input("Please choose your weapon: ")
         if hero.curweap == "none":
             if weapchoice == "1":
+                hero.inventory.append("Rusty Sword")
                 hero.curweap = "Rusty Sword"
                 hero.base_attack = 13
                 hero.base_evade_max = 8
                 hero.base_evade = hero.base_evade_max
             if weapchoice == "2":
+                hero.inventory.append("Rusty Dagger")
                 hero.curweap = "Rusty Dagger"
                 hero.base_attack = 9
                 hero.base_evade_max = 11
                 hero.base_evade = hero.base_evade_max
             if weapchoice == "3":
+                hero.inventory.append("Wooden Bow")
                 hero.curweap = "Wooden Bow"
                 hero.base_attack = 5
                 hero.base_evade_max = 15
