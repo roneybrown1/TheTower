@@ -383,7 +383,7 @@ class Player(Character):
 
     def addInventory(self):
         self.inventory.append(Item)
-        print ('Added ' + Item ' to bag.')
+        print ('Added ' + Item +' to bag.')
 
     def inventory(self):
         if self.state != 'normal':
@@ -437,6 +437,7 @@ def load_game():
             Character.gold = int(j['gold'])
             Character.gold_max = int(j['gold_max'])
             Character.pots = int(j['pots'])
+            Character.inventory = (j['inventory'])
 
     else:
         print('Invalid save name!')
@@ -523,6 +524,7 @@ def main():
         hero.base_evade_max = Character.base_evade_max
         hero.curweap = Character.weap
         hero.pots = Character.pots
+        hero.inventory = Character.inventory
         print('Welcome back ' + hero.name + ', ' + 'time to continue your adventure!')
         print("Enter your next command(if you need a refresher, type 'help')")
         # print('debug:' + str(hero.lvl) + str(hero.gold) + str(hero.hp) + str(hero.hp_max) + str(hero.base_attack)
