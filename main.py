@@ -60,7 +60,7 @@ class Enemy(Character):
                  "Erratic", "Frenzied", "Yellow", "Red", "Black", "Wasting", "Gross", "Ghastly", "Demonic", "Doomed",
                  "Savage", "Stone", "Elemental", "Abyssal", "Plague", "Behemoth", "Gelatinous", "Zombie", "Oozing",
                  "Lesser", "Fabled", "Fiendish", "Possessed", "Enraged", "Corrupted", "Forsaken", "Putrid", "Rabid",
-                 )
+                 "Vile")
         second = ("Goblin", "Warlock", "Witch", "Minotaur", "Kobald", "Skeleton", "Ogre", "Rat", "Spirit", "Troll",
                   "Vampire", "Banshee", "Warrior", "Dog", "Spider", "Snake", "Harpy", "Specter", "Dwarf", "Hobgoblin",
                   "Bat", "Familiar", "Golem", "Thief", "Orc", "Halfling", "Drow", "pixie", "Satyr", "Imp", "Hag",
@@ -84,7 +84,7 @@ class Boss(Character):
                  "Erratic", "Frenzied", "Yellow", "Red", "Black", "Wasting", "Gross", "Ghastly", "Demonic", "Doomed",
                  "Savage", "Stone", "Elemental", "Abyssal", "Plague", "Behemoth", "Gelatinous", "Zombie", "Oozing",
                  "Lesser", "Fabled", "Fiendish", "Possessed", "Enraged", "Corrupted", "Forsaken", "Putrid", "Rabid",
-                 )
+                 "Vile")
         second = ("Goblin", "Warlock", "Witch", "Minotaur", "Kobald", "Skeleton", "Ogre", "Rat", "Spirit", "Troll",
                   "Vampire", "Banshee", "Warrior", "Dog", "Spider", "Snake", "Harpy", "Specter", "Dwarf", "Hobgoblin",
                   "Bat", "Familiar", "Golem", "Thief", "Orc", "Halfling", "Drow", "pixie", "Satyr", "Imp", "Hag",
@@ -327,17 +327,7 @@ class Player(Character):
                       % (self.name, self.name, self.enemy.name))
                 self.enemy = None
                 self.state = 'normal'
-                if random.randint(0, self.hp) < 10:
-                    self.hp = self.hp + 3
-                    self.hp_max = self.hp_max + 3
-                    self.lvl = self.lvl + 1
-                    self.base_evade = self.base_evade + 3
-                    self.base_evade_max = self.base_evade_max + 3
-                    self.base_attack = self.base_attack + 1
-                    print("Through slaying enemies as they get in the way of %s's exploring %s has\n"
-                          "gained more experience and \033[1;32;1mleveled up!\033[1;37;1m %s gained three\n"
-                          "additional health points, three additional evade points, and one attack point!"
-                          % (self.name, self.name, self.name,))
+                self.addexp()
                 if random.randint(0, self.gold) < 10:
                     self.gold = self.gold + 5
                     print("%s found five gold pieces! Cha-ching!" % self.name)
