@@ -41,7 +41,7 @@ class Character:
 
     def do_damage(self, enemy):
         damage = min(max(randint(0, self.base_attack) - randint(0, enemy.hp), 0),
-                     enemy.hp, self.base_def, self.base_evade)
+                     enemy.hp, self.base_def, self.base_evade) * 2
         enemy.hp = enemy.hp - damage
         if damage == 0:
             print("%s was able to evade %s's \033[1;31;1mattack\033[1;37;1m." % (enemy.name, self.name))
@@ -68,7 +68,7 @@ class Enemy(Character):
         titleOne = random.choice(first)
         titleTwo = random.choice(second)
         self.name = (titleOne + " " + titleTwo)
-        self.hp = random.randint(1, player.hp)
+        self.hp = random.randint(1, player.hp) * 2
         self.base_attack = 15
         self.base_def = 10
         self.base_evade = 10
@@ -93,7 +93,7 @@ class Boss(Character):
         titleOne = random.choice(first)
         titleTwo = random.choice(second)
         self.name = (name + " " + titleOne + " " + titleTwo)
-        self.hp = random.randint(1, 300)
+        self.hp = random.randint(1, 300) * 2
         self.base_attack = 60
         self.base_def = 70
         self.base_evade = 40
@@ -119,6 +119,7 @@ class Player(Character):
         self.weap = {}
         self.curweap = "none"
         self.inventory = []
+        self.treasure_found = False
 
     def save(self):
         if self.state != 'normal':
@@ -136,7 +137,7 @@ class Player(Character):
                     'savename': save_name, 'name': self.name, 'lvl': self.lvl, 'hp': self.hp, 'hp_max': self.hp_max,
                     'base_atk': self.base_attack, 'base_def': self.base_def, 'base_def_max': self.base_def_max,
                     'base_evade': self.base_evade, 'base_evade_max': self.base_evade_max, 'curweap': self.curweap,
-                    'gold': self.gold, 'gold_max': self.gold_max, 'pots': self.pots, 'exp':self.exp
+                    'gold': self.gold, 'gold_max': self.gold_max, 'pots': self.pots, 'exp': self.exp
                 }
                 with open(path, 'w+') as f:
                     json.dump(data, f)
@@ -156,11 +157,11 @@ class Player(Character):
         print(Commands.keys())
 
     def status(self):
-        print("%s's current stats are...\n Level: %s\n Health: %d/%d\n Attack: %s\n "
-              "Def: %d/%d\n Evade: %d/%d\n Weapon: %s\n Gold: %d/%d\n Potions: %s \n XP: %s"
-              % (self.name, self.lvl, self.hp, self.hp_max, self.base_attack,
+        print("%s's current stats are...\n Level: %s\n Health: %d/%d\n Exp: %s\n Attack: %s\n "
+              "Def: %d/%d\n Evade: %d/%d\n Weapon: %s\n Gold: %d/%d\n Potions: %s"
+              % (self.name, self.lvl, self.hp, self.hp_max, self.exp, self.base_attack,
                  self.base_def, self.base_def_max, self.base_evade, self.base_evade_max,
-                 self.curweap, self.gold, self.gold_max, self.pots, self.exp))
+                 self.curweap, self.gold, self.gold_max, self.pots))
 
     def tired(self):
         print("%s can feel themselves getting weaker, one hp and evade point lost.\n"
@@ -206,55 +207,60 @@ class Player(Character):
                   "with each step the cave seems to be alive and changing. %s continues forward."
                   % (self.name, self.name))
             if random.randint(0, 5) > 1:
-                print("%s sees an opening in the cave wall, there is a faint glimmer in the distance\n"
+                print("%s sees an opening in the cave wall, there is a faint glimmer in the distance.\n"
                       % self.name)
                 answer = input("Explore the opening? y/n: ")
                 if answer == 'y' or answer == 'yes' or answer == 'Y' or answer == 'Yes':
                     if random.randint(0, 5) > 1:
+                        self.treasure_found = True
                         print("%s moves through the opening and towards the glimmer, moving closer %s and see\n"
                               "a treasure chest covered in strange symbols." % (self.name, self.name))
                         answer = input("Do you want to open the chest? y/n: ")
                         if answer == 'y' or answer == 'yes' or answer == 'Y' or answer == 'Yes':
-                            print("%s slowly opens the chest, as they do they reveal " % self.name)
+                            print("%s slowly opens the chest, as they do they reveal...." % self.name)
                             if random.randint(0, 5) > 1:
                                 if random.randint(0, 5) > 1:
                                     foundweapon = random.choice(self.weapons)
-                                    print("a shimmering %s" % foundweapon)
+                                    print("A shimmering %s!" % foundweapon)
                                     random.choice(self.weapons)
                                     if foundweapon == self.curweap:
                                         print("%s already has this weapon equipped, %s has been added to your\n"
                                               "inventory." % (self.name, foundweapon))
                                         self.inventory.append(foundweapon)
-                                    answer = input("Do you want to equip the item? y/n: ")
-                                    if answer == 'y' or answer == 'yes' or answer == 'Y' or answer == 'Yes':
-                                        print("% has unequipped the %s and equipped the %s"
-                                              %(self.name, self.curweap, foundweapon))
-                                        print("% has been placed in your inventory." % self.curweap)
-                                        self.inventory.append(self.curweap)
-                                        self.curweap = foundweapon
-                                    elif answer == 'n' or answer == 'no' or answer == 'N' or answer == 'No':
-                                        print("The item has been added to your inventory.")
-                                        self.inventory.append(foundweapon)
-                                elif random.randint(0, 20) < 10:
-                                    print("25 gold pieces!")
-                                    self.gold = self.gold + 25
-                                else:
-                                    print("The chest was empty, someone or something must have gotten here first.\n"
-                                          " %s continues exploring the cave" % self.name)
+                                    elif foundweapon != self.curweap:
+                                        answer = input("Do you want to equip the item? y/n: ")
+                                        if answer == 'y' or answer == 'yes' or answer == 'Y' or answer == 'Yes':
+                                            print("%s has unequipped the %s and equipped the %s"
+                                                  % (self.name, self.curweap, foundweapon))
+                                            print("% has been placed in your inventory." % self.curweap)
+                                            self.inventory.append(self.curweap)
+                                            self.curweap = foundweapon
+                                        elif answer == 'n' or answer == 'no' or answer == 'N' or answer == 'No':
+                                            print("The item has been added to your inventory.")
+                                            self.inventory.append(foundweapon)
+                            elif random.randint(0, 20) < 10:
+                                print("25 gold pieces!")
+                                self.gold = self.gold + 25
+                            else:
+                                print("The chest was empty, someone or something must have gotten here first.\n"
+                                      "%s continues exploring the cave." % self.name)
                         elif answer == 'n' or answer == 'no' or answer == 'N' or answer == 'No':
                             print("%s decides to not open the chest and continue exploring." % self.name)
-                    else:
-                        print("The opening led %s into more caves, %s continues forward." % (self.name, self.name))
+                else:
+                    print("The opening led %s into more caves, %s continues forward." % (self.name, self.name))
+                    self.treasure_found = False
                 if random.randint(0, 250) > 200:
                     print("As %s moved through the save they notice a skeleton tucked away in a dark crevice."
                           % self.name)
+                    self.treasure_found = True
                     answer = input("Do you want to check the skeleton? y/n")
                     if answer == 'y' or answer == 'yes' or answer == 'Y' or answer == 'Yes':
                         print("%s moves closer to the skeleton, as they step closer to the decrepit remains they\n"
                               "notice a satchel." % self.name)
                         if random.randint(0, 50) > 25:
+                            self.treasure_found = True
                             print("Reaching down into the satchel %s finds....\n" % self.name)
-                            if random.randint(0, 3) == 1:
+                            if randint(0, 3) == 1:
                                 print("\033[1;32;1m100 gold pieces\033[1;37;1m! %s quickly takes the gold and\n"
                                       "places it in their gold bag. %s continues their adventure."
                                       % (self.name, self.name))
@@ -263,15 +269,16 @@ class Player(Character):
                                 else:
                                     print("Unfortunately %s gold bag is full and cannot hold anymore.\n"
                                           "%s leaves the gold for another adventurer." % (self.name, self.name))
-                            if random.randint(0, 2) == 2:
+                            if randint(0, 3) == 2:
                                 print("nothing, it seems that someone or something has already cleared the\n"
                                       "satchel of it's belonging. %s continues on their adventure." % self.name)
-                            if random.randint(0, 3) == 3:
+                            if randint(0, 3) == 3:
                                 print("\033[1;32;1m3 health potions\033[1;37;1m! %s quickly takes the gold\n"
                                       "and places it in their gold bag. %s continues their adventure."
                                       % (self.name, self.name))
                                 self.pots = self.pots + 3
                         else:
+                            self.treasure_found = False
                             self.enemy = Enemy(self)
                             print("As %s reaches down to explore the contents of the satchel they\n"
                                   "are \033[1;31;1mattacked\033[0;37;1m from behind by a(n) %s!"
@@ -283,6 +290,7 @@ class Player(Character):
                               % self.name)
 
         if random.randint(0, 25):
+            self.treasure_found = False
             self.enemy = Enemy(self)
             print("As %s moves through the cave they notice a scuttling sound coming from behind them.\n"
                   "Oh no! %s has been \033[1;31;1mattacked\033[0;37;1m by a(n) %s!"
@@ -389,7 +397,7 @@ class Player(Character):
 
     def nextLvl(self):
         xpNeeded = self.lvl * 10
-        if self.exp >= xpNeeded:
+        if self.exp >= round((4 * (xpNeeded ** 3)) / 5):
             self.levelUp()
 
     def levelUp(self):
