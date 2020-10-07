@@ -106,6 +106,8 @@ class Player(Character):
         self.hp = 50
         self.hp_max = 50
         self.lvl = 1
+        self.exp = 0
+        self.nextLvl = self.nextLvl
         self.base_attack = 10
         self.base_def = 15
         self.base_def_max = 15
@@ -389,8 +391,6 @@ class Player(Character):
                 print("%s does not have any health potions to use." % self.name)
                 return ()
 
-<<<<<<< Updated upstream
-=======
     def addexp(self):
         earnedExp = self.exp + randint(0, 150)
         self.exp = self.exp + earnedExp
@@ -413,8 +413,6 @@ class Player(Character):
               "additional health points, three additional evade points, and one attack point!"
               % (self.name, self.name, self.name,))
 
-
->>>>>>> Stashed changes
     def addInventory(self):
         self.inventory.append(Item)
         print('Added ' + Item + ' to bag.')
