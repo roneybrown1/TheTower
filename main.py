@@ -26,6 +26,7 @@ class Character:
         self.hp = 50
         self.hp_max = 50
         self.lvl = 1
+        self.exp = 0
         self.base_attack = 10
         self.base_def = 15
         self.base_def_max = 15
@@ -60,11 +61,11 @@ class Enemy(Character):
                  "Erratic", "Frenzied", "Yellow", "Red", "Black", "Wasting", "Gross", "Ghastly", "Demonic", "Doomed",
                  "Savage", "Stone", "Elemental", "Abyssal", "Plague", "Behemoth", "Gelatinous", "Zombie", "Oozing",
                  "Lesser", "Fabled", "Fiendish", "Possessed", "Enraged", "Corrupted", "Forsaken", "Putrid", "Rabid",
-                 )
+                 "Vile")
         second = ("Goblin", "Warlock", "Witch", "Minotaur", "Kobald", "Skeleton", "Ogre", "Rat", "Spirit", "Troll",
                   "Vampire", "Banshee", "Warrior", "Dog", "Spider", "Snake", "Harpy", "Specter", "Dwarf", "Hobgoblin",
                   "Bat", "Familiar", "Golem", "Thief", "Orc", "Halfling", "Drow", "pixie", "Satyr", "Imp", "Hag",
-                  "Lich", "Crawler", "Wasp", "Mage", "Slime")
+                  "Lich", "Crawler", "Wasp", "Mage", "Slime", "Gnome", "")
         titleOne = random.choice(first)
         titleTwo = random.choice(second)
         self.name = (titleOne + " " + titleTwo)
@@ -106,6 +107,8 @@ class Player(Character):
         self.hp = 50
         self.hp_max = 50
         self.lvl = 1
+        self.exp = 0
+        self.nextLvl = self.nextLvl
         self.base_attack = 10
         self.base_def = 15
         self.base_def_max = 15
@@ -154,9 +157,9 @@ class Player(Character):
         print(Commands.keys())
 
     def status(self):
-        print("%s's current stats are...\n Level: %s\n Health: %d/%d\n Attack: %s\n "
+        print("%s's current stats are...\n Level: %s\n Health: %d/%d\n Exp: %d\n Attack: %s\n "
               "Def: %d/%d\n Evade: %d/%d\n Weapon: %s\n Gold: %d/%d\n Potions: %s"
-              % (self.name, self.lvl, self.hp, self.hp_max, self.base_attack,
+              % (self.name, self.lvl, self.hp, self.hp_max, self.exp, self.base_attack,
                  self.base_def, self.base_def_max, self.base_evade, self.base_evade_max,
                  self.curweap, self.gold, self.gold_max, self.pots))
 
@@ -317,17 +320,7 @@ class Player(Character):
                       % (self.name, self.name, self.enemy.name))
                 self.enemy = None
                 self.state = 'normal'
-                if random.randint(0, self.hp) < 10:
-                    self.hp = self.hp + 3
-                    self.hp_max = self.hp_max + 3
-                    self.lvl = self.lvl + 1
-                    self.base_evade = self.base_evade + 3
-                    self.base_evade_max = self.base_evade_max + 3
-                    self.base_attack = self.base_attack + 1
-                    print("Through slaying enemies as they get in the way of %s's exploring %s has\n"
-                          "gained more experience and \033[1;32;1mleveled up!\033[1;37;1m %s gained three\n"
-                          "additional health points, three additional evade points, and one attack point!"
-                          % (self.name, self.name, self.name,))
+                self.addexp()
                 if random.randint(0, self.gold) < 10:
                     self.gold = self.gold + 5
                     print("%s found five gold pieces! Cha-ching!" % self.name)
@@ -381,9 +374,32 @@ class Player(Character):
                 print("%s does not have any health potions to use." % self.name)
                 return ()
 
+    def addexp(self):
+            earnedExp = self.exp + randint(0, 150)
+            self.exp = self.exp + earnedExp
+            print("%s has gained " % self.name + str(earnedExp) + " experience points!")
+
+    def nextLvl(self):
+        xpNeeded = self.nextLvl() * 10
+        if self.exp <= xpNeeded:
+            self.levelUp()
+
+    def levelUp(self):
+        self.hp = self.hp + 3
+        self.hp_max = self.hp_max + 3
+        self.lvl = self.lvl + 1
+        self.base_evade = self.base_evade + 3
+        self.base_evade_max = self.base_evade_max + 3
+        self.base_attack = self.base_attack + 1
+        print("Through slaying enemies as they get in the way of %s's exploring %s has\n"
+              "gained more experience and \033[1;32;1mleveled up!\033[1;37;1m %s gained three\n"
+              "additional health points, three additional evade points, and one attack point!"
+              % (self.name, self.name, self.name,))
+
+
     def addInventory(self):
         self.inventory.append(Item)
-        print ('Added ' + Item +' to bag.')
+        print ('Added ' + Item + ' to bag.')
 
     def inventory(self):
         if self.state != 'normal':
@@ -399,7 +415,6 @@ class Player(Character):
                 print('peering into your bag you see the following:')
                 for x, y in enumerate(self.inventory):
                     print (x, y)
-
 
 
 Commands = {
