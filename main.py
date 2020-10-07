@@ -136,7 +136,7 @@ class Player(Character):
                     'savename': save_name, 'name': self.name, 'lvl': self.lvl, 'hp': self.hp, 'hp_max': self.hp_max,
                     'base_atk': self.base_attack, 'base_def': self.base_def, 'base_def_max': self.base_def_max,
                     'base_evade': self.base_evade, 'base_evade_max': self.base_evade_max, 'curweap': self.curweap,
-                    'gold': self.gold, 'gold_max': self.gold_max, 'pots': self.pots
+                    'gold': self.gold, 'gold_max': self.gold_max, 'pots': self.pots, 'exp':self.exp
                 }
                 with open(path, 'w+') as f:
                     json.dump(data, f)
@@ -157,10 +157,10 @@ class Player(Character):
 
     def status(self):
         print("%s's current stats are...\n Level: %s\n Health: %d/%d\n Attack: %s\n "
-              "Def: %d/%d\n Evade: %d/%d\n Weapon: %s\n Gold: %d/%d\n Potions: %s"
+              "Def: %d/%d\n Evade: %d/%d\n Weapon: %s\n Gold: %d/%d\n Potions: %s \n XP: %s"
               % (self.name, self.lvl, self.hp, self.hp_max, self.base_attack,
                  self.base_def, self.base_def_max, self.base_evade, self.base_evade_max,
-                 self.curweap, self.gold, self.gold_max, self.pots))
+                 self.curweap, self.gold, self.gold_max, self.pots, self.exp))
 
     def tired(self):
         print("%s can feel themselves getting weaker, one hp and evade point lost.\n"
@@ -328,6 +328,7 @@ class Player(Character):
                 self.enemy = None
                 self.state = 'normal'
                 self.addexp()
+                self.nextLvl()
                 if random.randint(0, self.gold) < 10:
                     self.gold = self.gold + 5
                     print("%s found five gold pieces! Cha-ching!" % self.name)
@@ -387,8 +388,8 @@ class Player(Character):
         print("%s has gained " % self.name + str(earnedExp) + " experience points!")
 
     def nextLvl(self):
-        xpNeeded = self.nextLvl() * 10
-        if self.exp <= xpNeeded:
+        xpNeeded = self.lvl * 10
+        if self.exp >= xpNeeded:
             self.levelUp()
 
     def levelUp(self):
@@ -458,6 +459,7 @@ def load_game():
             Character.gold = int(j['gold'])
             Character.gold_max = int(j['gold_max'])
             Character.pots = int(j['pots'])
+            Player.exp = int(j['exp'])
 
     else:
         print('Invalid save name!')
@@ -540,6 +542,7 @@ def main():
         hero.base_evade = Character.base_evade
         hero.base_evade_max = Character.base_evade_max
         hero.curweap = Character.weap
+        hero.exp = Player.exp
         hero.pots = Character.pots
         print('Welcome back ' + hero.name + ', ' + 'time to continue your adventure!')
         print("Enter your next command(if you need a refresher, type 'help')")
