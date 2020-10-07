@@ -389,6 +389,32 @@ class Player(Character):
                 print("%s does not have any health potions to use." % self.name)
                 return ()
 
+<<<<<<< Updated upstream
+=======
+    def addexp(self):
+        earnedExp = self.exp + randint(0, 150)
+        self.exp = self.exp + earnedExp
+        print("%s has gained " % self.name + str(earnedExp) + " experience points!")
+
+    def nextLvl(self):
+        xpNeeded = self.nextLvl() * 10
+        if self.exp <= xpNeeded:
+            self.levelUp()
+
+    def levelUp(self):
+        self.hp = self.hp + 3
+        self.hp_max = self.hp_max + 3
+        self.lvl = self.lvl + 1
+        self.base_evade = self.base_evade + 3
+        self.base_evade_max = self.base_evade_max + 3
+        self.base_attack = self.base_attack + 1
+        print("Through slaying enemies as they get in the way of %s's exploring %s has\n"
+              "gained more experience and \033[1;32;1mleveled up!\033[1;37;1m %s gained three\n"
+              "additional health points, three additional evade points, and one attack point!"
+              % (self.name, self.name, self.name,))
+
+
+>>>>>>> Stashed changes
     def addInventory(self):
         self.inventory.append(Item)
         print('Added ' + Item + ' to bag.')
