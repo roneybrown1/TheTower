@@ -1,6 +1,7 @@
 from art import *
 import sys
 import os
+import csv
 import json
 import random
 from random import randint
@@ -491,6 +492,9 @@ def main():
         print("Your choices are the 1.) Rusty Sword, the 2.) Rusty Dagger, or the 3.) Wooden Bow")
         print("(Each weapon has different stats.")
         weapchoice = input("Please choose your weapon: ")
+        introData = (csv.reader(open('data/intro.csv', 'r')))
+        introDataClean = list(introData)
+        introRoll = random.choice(introDataClean)
         if hero.curweap == "none":
             if weapchoice == "1":
                 hero.curweap = "Rusty Sword"
@@ -509,14 +513,13 @@ def main():
                 hero.base_evade = hero.base_evade_max
 
             print("(Type 'help' to get a list of usable commands)\n")
+
             print("%s your adventure begins here, whether you live or die is up to the fates themselves\n"
                   "and a bit of skill on your behalf. I am your guide 'Aldos' and I will follow you\n"
                   "throughout your adventures, however, I will not interfere with the choices you make.\n"
                   % hero.name)
-            print("Equipped with their satchel and trusty dagger passed down their bloodline to each\n"
-                  "adventurer %s kisses their mother on the cheek and rushes out the front door towards\n"
-                  "the 'Cave of Beastlies'. Coming to the entrance of the cave %s takes a deep breath\n"
-                  "and pushes forward." % (hero.name, hero.name))
+
+            print(str(introRoll).format(h = hero.name))
             pass
 
         else:
